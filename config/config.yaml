@@ -1,0 +1,2 @@
+# Path to file describing samples and their file-paths
+samples: config/samples.csv

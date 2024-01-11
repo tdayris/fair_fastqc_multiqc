@@ -1,0 +1,12 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+description: snakemake configuration file
+
+type: object
+
+samples:
+  type: string
+  description: Path to the CSV file defining samples and their corresponding fastq paths
+
+required:
+  - samples

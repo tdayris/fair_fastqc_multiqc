@@ -1,0 +1,21 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+description: samples property file
+
+type: object
+
+sample_id:
+  type: string
+  description: Unique sample identifier
+
+upstream_file:
+  type: string
+  description: Path to upstream fastq file
+
+downstream_file:
+  type: string
+  description: Path to downstream fastq file
+
+required:
+  - sample_id
+  - upstream_file
