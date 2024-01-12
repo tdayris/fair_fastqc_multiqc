@@ -20,11 +20,11 @@ rule multiqc_report:
         runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
         tmpdir="tmp",
     params:
-        extra="--zip-data-dir",
+        extra="--module fastqc --zip-data-dir --verbose --no-megaqc-upload --no-ansi --force",
         use_input_files_only=True,
     log:
         "logs/multiqc.log",
     benchmark:
         "benchmark/multiqc.tsv"
     wrapper:
-        "v3.3.3/bio/multiqc" 
+        "v3.3.3/bio/multiqc"

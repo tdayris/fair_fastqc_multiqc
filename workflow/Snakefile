@@ -1,0 +1,20 @@
+include: "rules/common.smk"
+include: "rules/fastqc.smk"
+include: "rules/multiqc.smk"
+
+
+rule fair_fastqc_multiqc_target:
+    input:
+        unpack(get_fair_fastqc_multiqc_target),
+    output:
+        touch("tmp/targets/fair_fastqc_multiqc_target.flag"),
+    localrule: True
+    threads: 1
+    resources:
+        mem_mb=128,
+        runtime=2,
+        tmpdir="tmp",
+    log:
+        "logs/fair_fastqc_multiqc_target.log",
+    benchmark:
+        "benchmark/fair_fastqc_multiqc_target.tsv"
