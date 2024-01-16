@@ -1,3 +1,9 @@
+# 1.0.2
+
+## Fixes
+
+* csv.Sniffer having too much data to define delimiter
+
 # 1.0.1
 
 ## Features
