@@ -1,3 +1,10 @@
+# 1.0.4
+
+## Features
+
+* More precise configuration file validation
+* Labed added to MultiQC to make it more noticable
+
 # 1.0.3
 
 ## Features

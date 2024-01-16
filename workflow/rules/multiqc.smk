@@ -9,6 +9,7 @@ rule fastqc_multiqc_report:
             subcategory="General",
             labels={
                 "report": "html",
+                "step": "Raw",
             },
         ),
         "results/QC/MultiQC_FastQC_data.zip",

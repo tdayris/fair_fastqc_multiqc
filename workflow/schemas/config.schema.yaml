@@ -8,5 +8,16 @@ samples:
   type: string
   description: Path to the CSV file defining samples and their corresponding fastq paths
 
+
+params:
+  type: object
+  description: Optional parameters for FastQC and MultiQC
+  fastqc:
+    type: string
+    description: Optional parameters for FastQC
+  multiqc:
+    type: string
+    description: Optional parameters for MultiQC
+
 required:
   - samples
