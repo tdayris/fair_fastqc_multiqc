@@ -16,10 +16,9 @@ rule fastqc_pair_ended:
         zip="results/QC/report_pe/{sample}.{stream}_fastqc.zip",
     threads: 1
     resources:
-        # Reserve 2Gb per attempt
-        mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
-        # Reserve 30min per attempt
-        runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
+        mem_mb=get_2gb_per_attempt,
+        runtime=get_30min_per_attempt,
+        disk=get_input_size_per_attempt_plus_1gb,
         tmpdir="tmp",
     log:
         "logs/fastqc/{sample}.{stream}.log",

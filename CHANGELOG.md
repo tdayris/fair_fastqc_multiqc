@@ -1,3 +1,18 @@
+# 1.0.3
+
+## Features
+
+* Hidden keys in documentation are now described
+* MultiQC report name changed in order to identify it more easily
+* Example report available
+* Disk usage reservation
+* Explicit time/memory reservation
+
+## Fixes
+
+* Documentation pointing to fastp and not fastqc
+* Typo in snakemake report main page
+
 # 1.0.2
 
 ## Fixes

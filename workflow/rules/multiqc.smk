@@ -1,9 +1,9 @@
-rule multiqc_report:
+rule fastqc_multiqc_report:
     input:
         unpack(get_multiqc_report_input),
     output:
         report(
-            "results/QC/MultiQC.html",
+            "results/QC/MultiQC_FastQC.html",
             caption="../report/multiqc.rst",
             category="Quality Controls",
             subcategory="General",
@@ -11,16 +11,18 @@ rule multiqc_report:
                 "report": "html",
             },
         ),
-        "results/QC/MultiQC_data.zip",
+        "results/QC/MultiQC_FastQC_data.zip",
     threads: 1
     resources:
-        # Reserve 2Gb per attempt
-        mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
-        # Reserve 30min per attempt
-        runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
+        mem_mb=get_2gb_per_attempt,
+        runtime=get_30min_per_attempt,
+        disk=get_input_size_per_attempt_plus_1gb,
         tmpdir="tmp",
     params:
-        extra="--module fastqc --zip-data-dir --verbose --no-megaqc-upload --no-ansi --force",
+        extra=config.get("params", {}).get(
+            "multiqc",
+            "--module fastqc --zip-data-dir --verbose --no-megaqc-upload --no-ansi --force",
+        ),
         use_input_files_only=True,
     log:
         "logs/multiqc.log",

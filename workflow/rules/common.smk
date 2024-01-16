@@ -1,10 +1,12 @@
 import csv
+import functools
 import pandas
 import snakemake
 import snakemake.utils
 
 from collections import defaultdict
 from pathlib import Path
+from snakemake.common.tbdstring import TBDString
 from typing import Any
 
 snakemake.utils.min_version("7.29.0")
@@ -74,6 +76,32 @@ stream_list: list[str] = ["1", "2"]
 wildcard_constraints:
     sample=r"|".join(samples.sample_id),
     stream=r"|".join(stream_list),
+
+
+# Memory and time reservation
+def get_resources_per_attempt(
+    wildcards: snakemake.io.Wildcards, input: snakemake.io.InputFiles, attempt: int = 1, multiplier: int = 1, base: int = 0
+) -> int:
+    """
+    Return the amount of resources needed per GB of input.
+
+    Parameters:
+    wildcards  (snakemake.io.Wildcards) : Snakemake signature requires this parameter
+    input      (snakemake.io.InputFiles): Snakemake input files
+    attempt    (int)                    : The # of times the calling rule has been restarted
+    multiplier (int)                    : An arbitrary multiplier
+    base       (int)                    : Minimal reservation
+
+
+    Return:
+    (int) The amount of resources needed (mb, minutes, etc)
+    """
+    return int((multiplier * attempt) + base)
+
+
+get_2gb_per_attempt = functools.partial(get_resources_per_attempt, multiplier=2048)
+get_30min_per_attempt = functools.partial(get_resources_per_attempt, multiplier=30)
+get_input_size_per_attempt_plus_1gb = functools.partial(get_resources_per_attempt, base=1024)
 
 
 def get_sample_information(
@@ -173,7 +201,7 @@ def get_fair_fastqc_multiqc_target(
     """
     return {
         "multiqc": [
-            "results/QC/MultiQC.html",
-            "results/QC/MultiQC_data.zip",
+            "results/QC/MultiQC_FastQC.html",
+            "results/QC/MultiQC_FastQC_data.zip",
         ],
     }

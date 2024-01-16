@@ -5,4 +5,7 @@ params:
   # fastqc optional parameters
   fastqc: ""
   # multiqc optional parameters
-  multiqc: --module fastqc --zip-data-dir --verbose --no-megaqc-upload --no-ansi --force
+  # multiqc: "--module fastqc --zip-data-dir --verbose --no-megaqc-upload --no-ansi --force"
+
+
+genomes: config/genomes.csv

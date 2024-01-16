@@ -44,7 +44,7 @@ Second, run:
     
     snakedeploy deploy-workflow \
                 https://github.com/tdayris/fair_fastqc_multiqc . \
-                --tag v2.2.8
+                --tag v1.0.3
 
 Snakedeploy will create two folders `workflow` and `config`. The former contains the 
 deployment of the chosen workflow as a `Snakemake module`_, the latter contains 
@@ -73,7 +73,7 @@ the `Mamba package manager`_ by default), run Snakemake with:
 
 ::
     
-    snakemake --cores all --use-conda 
+    snakemake --cores all --software-deployment-method conda
 
 Snakemake will automatically detect the main `Snakefile` in the `workflow` subfolder 
 and execute the workflow module that has been defined by the deployment in step 2.

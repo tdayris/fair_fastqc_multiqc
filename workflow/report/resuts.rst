@@ -50,8 +50,8 @@ the following files are present:
 ::
 
     QC
-    ├── MultiQC_data.zip
-    ├── MultiQC.html
+    ├── MultiQC_FastQC_data.zip
+    ├── MultiQC_FastQC.html
     ├── report_pe
     │   └── YYY.html
     └── report_se
