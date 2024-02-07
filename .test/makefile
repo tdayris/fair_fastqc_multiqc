@@ -10,6 +10,7 @@ MAKEFLAGS += --no-builtin-rules
 snakefiles := \
 	"../workflow/Snakefile" \
 	"../workflow/rules/fastqc.smk" \
+	"../workflow/rules/fastq_screen.smk" \
 	"../workflow/rules/multiqc.smk"
 
 .PHONY: all
