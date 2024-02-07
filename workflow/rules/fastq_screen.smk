@@ -9,6 +9,7 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
         mem_mb=lambda wildcards, attempt: attempt * 512,
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir="tmp",
+        slurm_partition=lambda wildcards, attempt: get_partition(wildcards, attempt, 10),
     log:
         "logs/fastq_screen/{sample}.log"
     benchmark:

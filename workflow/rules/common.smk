@@ -74,6 +74,30 @@ wildcard_constraints:
     stream=r"|".join(stream_list),
 
 
+def get_partition(
+    wildcards: snakemake.io.Wildcards,
+    attempt: int,
+    multiplier: int = 1,
+    config: dict[str, Any] = config,
+) -> str | None:
+    """
+    If, and only if pipeline is run at Gustave Roussy, this function returns a
+    string. Else, it returns None.
+    """
+    hostname: str = os.environ.get("HOSTNAME", "").lower()
+    runtime: int = attempt * multiplier
+    if hostname.startswith("flamingo"):
+        if runtime <= 60 * 6:
+            return "shortq"
+        if job.resources.runtime <= 60 * 24:
+            partition = "mediumq"
+        if job.resources.runtime <= 60 * 24 * 7:
+            partition = "longq"
+        if job.resources.runtime <= 60 * 24 * 60:
+            partition = "verylongq"
+        return "shortq"
+
+
 def get_fastqc_fastqscreen_input(
     wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame = samples
 ) -> str:

@@ -21,7 +21,7 @@ and ignore the rest of this documentation.
     rsync -cvrhP /mnt/beegfs/pipelines/unofficial-snakemake-wrappers/genomes.csv config/genomes.csv
 
     # Run snakemake command
-    snakemake --profile '/mnt/beegfs/pipelines/unofficial-snakemake-wrappers/profiles/slurm-web/'
+    snakemake --profile '/mnt/beegfs/pipelines/unofficial-snakemake-wrappers/profiles/slurm-web-8/'
 
 With `version` being the latest available version of this pipeline. Select your `version here`_
 

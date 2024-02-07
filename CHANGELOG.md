@@ -1,3 +1,13 @@
+# 2.0.1
+
+## Features:
+
+* Add `slurm_partition` for snakemake plugin executor
+
+## Documentation
+
+* Usage updated
+
 # 2.0.0
 
 Snakemake v8.1+ required

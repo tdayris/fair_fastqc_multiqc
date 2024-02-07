@@ -18,6 +18,7 @@ rule fair_fastqc_multiqc_report:
         mem_mb=lambda wildcards, attempt: attempt * (1024 * 2),
         runtime=lambda wildcards, attempt: attempt * 30,
         tmpdir="tmp",
+        slurm_partition=lambda wildcards, attempt: get_partition(wildcards, attempt, 30),
     params:
         extra=config.get("params", {}).get(
             "multiqc",

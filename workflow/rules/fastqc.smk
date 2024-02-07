@@ -19,6 +19,7 @@ rule fair_fastqc_multiqc_fastqc_pair_ended:
         mem_mb=lambda wildcards, attempt: attempt * (1024 * 2),
         runtime=lambda wildcards, attempt: attempt * 30,
         tmpdir="tmp",
+        slurm_partition=lambda wildcards, attempt: get_partition(wildcards, attempt, 30),
     log:
         "logs/fastqc/{sample}.{stream}.log",
     benchmark:
