@@ -10,6 +10,10 @@ Snakemake v8.1+ required
 * Use of lookup and queries instead of hand-made samples.csv parsing
 * DAG available on readme
 
+## Known bugs
+
+* Report is unavailable as long as the TBD issue is opened on Snakemake
+
 
 # 1.0.4
 
