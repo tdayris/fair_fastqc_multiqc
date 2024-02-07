@@ -1,11 +1,15 @@
 include: "rules/common.smk"
+include: "rules/fastq_screen.smk"
 include: "rules/fastqc.smk"
 include: "rules/multiqc.smk"
 
 
 rule fair_fastqc_multiqc_target:
     input:
-        unpack(get_fair_fastqc_multiqc_target),
+        multiqc=[
+            "results/QC/MultiQC_FastQC.html",
+            "results/QC/MultiQC_FastQC_data.zip",
+        ],
     output:
         touch("tmp/targets/fair_fastqc_multiqc_target.flag"),
     localrule: True

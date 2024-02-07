@@ -1,3 +1,16 @@
+# 2.0.0
+
+Snakemake v8.1+ required
+
+## Features
+
+* New QC: [FastqScreen](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/fastq_screen.html), available if, and only if a configuration file is provided.
+* Snakemake Wrappers update to [3.3.6](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/changelog.html)
+* Github actions updated
+* Use of lookup and queries instead of hand-made samples.csv parsing
+* DAG available on readme
+
+
 # 1.0.4
 
 ## Features

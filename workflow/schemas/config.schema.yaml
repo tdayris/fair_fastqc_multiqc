@@ -18,6 +18,18 @@ params:
   multiqc:
     type: string
     description: Optional parameters for MultiQC
+  fastq_screen:
+    type: object
+    subset:
+      type: integer
+      description: Number of reads used to build statistics
+    fastq_screen_config:
+      type: string
+      description: Path to fastq screen configuration
+    aligner:
+      type: string
+      description: Aligner used to index references
+      pattern: "^bowtie2?"
 
 required:
   - samples

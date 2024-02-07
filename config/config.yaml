@@ -6,7 +6,15 @@ params:
   # fastqc optional parameters
   fastqc: ""
   # multiqc optional parameters
-  # multiqc: "--module fastqc --zip-data-dir --verbose --no-megaqc-upload --no-ansi --force"
+  multiqc: "--module fastqc --module fastq_screen --zip-data-dir --verbose --no-megaqc-upload --no-ansi --force"
+  # Optional parameters for FastQ Screen
+  fastq_screen:
+    # Number of reads processed
+    subset: 100000
+    # Aligner used to index dna sequences
+    aligner: bowtie2
+    # Path to configuration file
+    fastq_screen_config: "config/fastq_screen_config.txt"
 
 # Optional path to a file describing genomes
 genomes: config/genomes.csv

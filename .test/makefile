@@ -12,9 +12,6 @@ snakefiles := \
 	"../workflow/rules/fastqc.smk" \
 	"../workflow/rules/multiqc.smk"
 
-pythonscripts := \
-	"../scripts/multiqc_config.py"
-
 .PHONY: all
 all: report.txt
 
@@ -29,7 +26,7 @@ dag.png:
 report.txt: pipeline.txt
 	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile \
-		--report report.html 2>&1 | tee report.txt
+		--report report.zip 2>&1 | tee report.txt
 
 
 pipeline.txt: linter.txt
@@ -45,12 +42,7 @@ format.txt:
 	snakefmt $(snakefiles) 2>&1 | tee format.txt
 
 
-black.txt:
-	mamba activate test-snakemake-wrappers && \
-	black $(pythonscripts) 2>&1 | tee black.txt
-
-
-linter.txt: format.txt black.txt
+linter.txt: format.txt
 	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile \
 		--lint 2>&1 | tee linter.txt
@@ -69,4 +61,7 @@ clean:
 		   report.txt \
 		   pipeline.txt \
 		   genomes.csv \
-		   dag.png
+		   dag.png \
+		   report.zip \
+		   report \
+		   black.txt

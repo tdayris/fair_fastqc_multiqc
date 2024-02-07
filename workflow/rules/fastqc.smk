@@ -1,6 +1,6 @@
-rule fastqc_pair_ended:
+rule fair_fastqc_multiqc_fastqc_pair_ended:
     input:
-        unpack(get_fastqc_input),
+        unpack(get_fastqc_fastqscreen_input),
     output:
         html=report(
             "results/QC/report_pe/{sample}.{stream}.html",
@@ -16,9 +16,8 @@ rule fastqc_pair_ended:
         zip="results/QC/report_pe/{sample}.{stream}_fastqc.zip",
     threads: 1
     resources:
-        mem_mb=get_2gb_per_attempt,
-        runtime=get_30min_per_attempt,
-        disk=get_input_size_per_attempt_plus_1gb,
+        mem_mb=lambda wildcards, attempt: attempt * (1024 * 2),
+        runtime=lambda wildcards, attempt: attempt * 30,
         tmpdir="tmp",
     log:
         "logs/fastqc/{sample}.{stream}.log",
@@ -27,10 +26,10 @@ rule fastqc_pair_ended:
     params:
         extra=config.get("params", {}).get("fastqc", ""),
     wrapper:
-        "v3.3.3/bio/fastqc"
+        "v3.3.6/bio/fastqc"
 
 
-use rule fastqc_pair_ended as fastqc_single_ended with:
+use rule fair_fastqc_multiqc_fastqc_pair_ended as fair_fastqc_multiqc_fastqc_single_ended with:
     output:
         html=report(
             "results/QC/report_pe/{sample}.html",

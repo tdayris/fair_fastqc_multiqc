@@ -11,3 +11,5 @@
 .test/dag.png
 .test/report.txt
 .test/genomes.csv
+.test/report
+.test/report.zip

@@ -1,3 +1,31 @@
+`Gustave Roussy`_ special launching steps
+=========================================
+
+If you belong to `Gustave Roussy`_, and use `flamingo` computing cluster, please use the following command lines
+and ignore the rest of this documentation.
+
+::
+
+    # Activate conda environment
+    conda activate /mnt/beegfs/pipelines/unofficial-snakemake-wrappers/shared_install/snakemake_v8.4.6
+
+    # Deploy workflow with the version of your choice
+    snakedeploy deploy-workflow \
+        https://github.com/tdayris/fair_fastqc_multiqc . \
+        --tag <version>
+
+    # Edit your configuration file if needed
+    vim config/config.yaml
+
+    # Use shared genome.csv file to avoid downloading all the available resources from the web
+    rsync -cvrhP /mnt/beegfs/pipelines/unofficial-snakemake-wrappers/genomes.csv config/genomes.csv
+
+    # Run snakemake command
+    snakemake --profile '/mnt/beegfs/pipelines/unofficial-snakemake-wrappers/profiles/slurm-web/'
+
+With `version` being the latest available version of this pipeline. Select your `version here`_
+
+
 Step 1 : Install Snakemake and Snakedeploy
 ==========================================
 
@@ -12,7 +40,10 @@ Given that Mamba is installed, run
     mamba create -c conda-forge \
                  -c bioconda \
                  --name snakemake \
-                 snakemake snakedeploy
+                 snakemake \
+                 snakedeploy \
+                 mamba \
+
 
 to install both Snakemake and Snakedeploy in an isolated environment.
 For all following commands ensure that this environment is activated 
@@ -44,7 +75,9 @@ Second, run:
     
     snakedeploy deploy-workflow \
                 https://github.com/tdayris/fair_fastqc_multiqc . \
-                --tag v1.0.3
+                --tag <version>
+
+Where <version> is the latest available verison.
 
 Snakedeploy will create two folders `workflow` and `config`. The former contains the 
 deployment of the chosen workflow as a `Snakemake module`_, the latter contains 
@@ -80,7 +113,6 @@ and execute the workflow module that has been defined by the deployment in step 
 
 For further options, e.g. for cluster and cloud execution, see Snakemake_ documentation.
 
-
 Step 5 : Generate report
 ========================
 
@@ -105,3 +137,5 @@ file in publications, or uploaded to a service like Zenodo_ in order to obtain a
 .. _`config/README.md`: https://github.com/tdayris/fair_fastqc_multiqc/blob/main/config/README.md
 .. _Zenodo: https://zenodo.org/
 .. _DOI: https://en.wikipedia.org/wiki/Digital_object_identifier
+.. _`Gustave Roussy`: https://www.gustaveroussy.fr/en
+.. _`version here`: https://github.com/tdayris/fair_fastqc_multiqc/releases

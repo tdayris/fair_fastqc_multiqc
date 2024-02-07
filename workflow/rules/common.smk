@@ -7,11 +7,11 @@ import snakemake.utils
 from collections import defaultdict
 from pathlib import Path
 from snakemake.common.tbdstring import TBDString
-from typing import Any
+from typing import Any, NamedTuple
 
-snakemake.utils.min_version("7.29.0")
+snakemake.utils.min_version("8.1.0")
 
-# containerized: "docker://snakemake/snakemake:v7.32.4"
+# containerized: "docker://snakemake/snakemake:latest"
 # containerized: "docker://mambaorg/micromamba:git-8440cec-jammy-cuda-12.2.0"
 # containerized: "docker://condaforge/mambaforge:23.3.1-1"
 
@@ -64,11 +64,7 @@ else:
 
 snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 
-snakemake_wrappers_version: str = "v3.0.0"
-
-
 report: "../report/workflows.rst"
-
 
 stream_list: list[str] = ["1", "2"]
 
@@ -78,52 +74,7 @@ wildcard_constraints:
     stream=r"|".join(stream_list),
 
 
-# Memory and time reservation
-def get_resources_per_attempt(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.InputFiles, attempt: int = 1, multiplier: int = 1, base: int = 0
-) -> int:
-    """
-    Return the amount of resources needed per GB of input.
-
-    Parameters:
-    wildcards  (snakemake.io.Wildcards) : Snakemake signature requires this parameter
-    input      (snakemake.io.InputFiles): Snakemake input files
-    attempt    (int)                    : The # of times the calling rule has been restarted
-    multiplier (int)                    : An arbitrary multiplier
-    base       (int)                    : Minimal reservation
-
-
-    Return:
-    (int) The amount of resources needed (mb, minutes, etc)
-    """
-    return int((multiplier * attempt) + base)
-
-
-get_2gb_per_attempt = functools.partial(get_resources_per_attempt, multiplier=2048)
-get_30min_per_attempt = functools.partial(get_resources_per_attempt, multiplier=30)
-get_input_size_per_attempt_plus_1gb = functools.partial(get_resources_per_attempt, base=1024)
-
-
-def get_sample_information(
-    wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame
-) -> dict[str, str | None]:
-    """
-    Return sample information for a given {sample} wildcards
-
-    Parameters:
-    wildcards (snakemake.io.Wildcards): Required for snakemake unpacking function
-    samples   (pandas.DataFrame)      : Describe samples and their input files
-
-    Return (dict[str, str | None]):
-    Sample information
-    """
-    result: str | None = samples.loc[(samples["sample_id"] == str(wildcards.sample))]
-    if len(result) > 0:
-        return next(iter(result.to_dict(orient="index").values()))
-    return defaultdict(lambda: None)
-
-
-def get_fastqc_input(
+def get_fastqc_fastqscreen_input(
     wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame = samples
 ) -> str:
     """
@@ -137,15 +88,16 @@ def get_fastqc_input(
     Return (str):
     Path to a fastq file, as required by FastQC's snakemake-wrapper
     """
-    sample_data: dict[str, str | None] = get_sample_information(wildcards, samples)
-    downstream_file: str | None = sample_data.get("downstream_file")
+    sample: str = str(wildcards.sample)
+    sample_data: NamedTuple = lookup(
+        query=f"sample_id == '{sample}'",
+        within=samples
+    )
     if "stream" in wildcards.keys():
-        if wildcards.stream == "1":
-            return {"fastq": sample_data["upstream_file"]}
-        elif wildcards.stream == "2" and downstream_file:
-            return {"fastq": sample_data["downstream_file"]}
-        raise ValueError("Could not guess which fastq we're talking about")
-    return {"fastq": sample_data["upstream_file"]}
+        stream: str = str(wildcards.stream)
+        if stream == "2":
+            return {"fastq": sample_data.downstream_file}
+    return {"fastq": sample_data.upstream_file}
 
 
 def get_multiqc_report_input(
@@ -162,46 +114,41 @@ def get_multiqc_report_input(
     Return (dict[str, list[str]]):
     Dictionnary of all input files as required by MultiQC's snakemake-wrapper
     """
-    results: dict[str, list[str]] = {"fastqc": []}
-    datatype: str = "dna"
-    sample_iterator = zip(
-        samples.sample_id,
-        samples.species,
-        samples.build,
-        samples.release,
-    )
-    for sample, species, build, release in sample_iterator:
-        sample_data: dict[str, str | None] = get_sample_information(
-            snakemake.io.Wildcards(fromdict={"sample": sample}), samples
-        )
-        if sample_data.get("downstream_file"):
-            results["fastqc"].append(f"results/QC/report_pe/{sample}.1_fastqc.zip")
-            results["fastqc"].append(f"results/QC/report_pe/{sample}.2_fastqc.zip")
-        else:
-            results["fastqc"].append(f"results/QC/report_pe/{sample}_fastqc.zip")
+    results: dict[str, list[str]] = {
+        "fastqc_single_ended": collect(
+            "results/QC/report_pe/{single_ended_data}_fastqc.zip",
+            single_ended_data=lookup(
+                query="downstream_file != downstream_file",
+                within=samples
+            ).sample_id,
+        ),
+        "fastqc_pair_ended": collect(
+            "results/QC/report_pe/{pair_ended_data}.{stream}_fastqc.zip",
+            pair_ended_data=lookup(
+                query="downstream_file == downstream_file",
+                within=samples
+            ).sample_id,
+            stream=stream_list,
+        ),
+        "fastq_screen_single_ended": collect(
+            "tmp/fastq_screen/{single_ended_data}.fastq_screen.txt",
+            single_ended_data=lookup(
+                query="downstream_file != downstream_file",
+                within=samples
+            ).sample_id,
+        ),
+        "fastq_screen_pair_ended": collect(
+            "tmp/fastq_screen/{pair_ended_data}.{stream}.fastq_screen.txt",
+            pair_ended_data=lookup(
+                query="downstream_file == downstream_file",
+                within=samples
+            ).sample_id,
+            stream=stream_list,
+        ),
+    }
+
+    if not config.get("params", {}).get("fastq_screen", {}).get("fastq_screen_config"):
+        del results["fastq_screen_single_ended"]
+        del results["fastq_screen_pair_ended"]
 
     return results
-
-
-def get_fair_fastqc_multiqc_target(
-    wildcards: snakemake.io.Wildcards,
-    samples: pandas.DataFrame = samples,
-    config: dict[str, Any] = config,
-) -> dict[str, list[str]]:
-    """
-    Return the expected list of output files at the end of the pipeline
-
-    Parameters:
-    wildcards (snakemake.io.Wildcards): Required for snakemake unpacking function
-    samples   (pandas.DataFrame)      : Describe sample names and related paths/genome
-    config    (dict[str, Any])        : Configuration file
-
-    Return (dict[str, List(str)]):
-    Dictionnary of expected output files
-    """
-    return {
-        "multiqc": [
-            "results/QC/MultiQC_FastQC.html",
-            "results/QC/MultiQC_FastQC_data.zip",
-        ],
-    }

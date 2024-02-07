@@ -1,5 +1,5 @@
-[![Snakemake](https://img.shields.io/badge/snakemake-≥7.29.0-brightgreen.svg)](https://snakemake.github.io)
-[![GitHub actions status](https://github.com/tdayris/fair_fastqc_multiqc/workflows/Tests/badge.svg?branch=main)](https://github.com/tdayris/fair_fastqc_multiqc/actions?query=branch%3Amain+workflow%3ATests)
+[![Snakemake](https://img.shields.io/badge/snakemake-≥8.1.0-brightgreen.svg)](https://snakemake.github.io)
+[![GitHub actions status](https://github.com/tdayris/fair_fastqc_multiqc/workflows/Tests/badge.svg)](https://github.com/tdayris/fair_fastqc_multiqc/actions?query=branch%3Amain+workflow%3ATests)
 
 Snakemake workflow used to control read qualities over fastq files with FastQC.
 
@@ -18,9 +18,12 @@ A complete description of the results can be found here in [workflow reports](ht
 
 The tools used in this pipeline are described [here](https://github.com/tdayris/fair_fastqc_multiqc/blob/main/workflow/report/material_methods.rst) textually.
 
+![workflow_rulegraph](dag.png)
+
 ### QC
 
-| Step    | Wrapper                                                                                      |
-| ------- | -------------------------------------------------------------------------------------------- |
-| FastQC  | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/fastqc.html)   |
-| MultiQC | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/multiqc.html) |
+| Step    | Wrapper                                                                                        |
+| ------- | ---------------------------------------------------------------------------------------------- |
+| FastQC  | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/fastqc.html)     |
+| FastQC  | [fastq-screen](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/fastq_screen.html) |
+| MultiQC | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/multiqc.html)   |
