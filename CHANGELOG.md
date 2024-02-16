@@ -1,3 +1,21 @@
+# 2.0.2
+
+## Features:
+
+* Removed slurm partition function
+* Job reservation based on input file size
+* tempfiles, logs and benchmarks paths reorganized: 
+    * `tmp/fair_fastqc_multiqc/{rule_name}/{wildcards}.{extension}`
+    * `log/fair_fastqc_multiqc/{rule_name}/{wildcards}.log`
+    * `benchmark/fair_fastqc_multiqc/{rule_name}/{wildcards}.tsv`
+* Use of `lookup` to find configuration values
+* Dag as ascii-art
+
+## Fixes:
+
+* Documentation error
+
+
 # 2.0.1
 
 ## Features:

@@ -1,36 +1,41 @@
 rule fair_fastqc_multiqc_fastq_screen_single_ended:
     input:
-        unpack(get_fastqc_fastqscreen_input),
+        sample="tmp/fair_fastqc_multiqc/link_or_concat_single_ended_input/{sample}.fastq.gz",
     output:
-        txt=temp("tmp/fastq_screen/{sample}.fastq_screen.txt"),
+        txt=temp(
+            "tmp/fair_fastqc_multiqc/fastq_screen_single_ended/{sample}.fastq_screen.txt"
+        ),
         tmp="results/QC/fastq_screen/{sample}.fastq_screen.png",
     threads: 20
     resources:
         mem_mb=lambda wildcards, attempt: attempt * 512,
-        runtime=lambda wildcards, attempt: attempt * 10,
+        runtime=lambda wildcards, input, attempt: attempt
+        * 15
+        * max(1, int(input.size_mb / 1024)),
         tmpdir="tmp",
-        slurm_partition=lambda wildcards, attempt: get_partition(wildcards, attempt, 10),
     log:
-        "logs/fastq_screen/{sample}.log",
+        "logs/fair_fastqc_multiqc/fastq_screen_single_ended/{sample}.log",
     benchmark:
-        "benchmark/fastq_screen/{sample}.tsv"
+        "benchmark/fair_fastqc_multiqc/fastq_screen_single_ended/{sample}.tsv"
     params:
-        aligner=config.get("params", {})
-        .get("fastq_screen", {})
-        .get("aligner", "bowtie2"),
-        subset=config.get("params", {}).get("fastq_screen", {}).get("subset", 100_000),
-        fastq_screen_config=config.get("params", {})
-        .get("fastq_screen", {})
-        .get("fastq_screen_config"),
+        aligner=lookup(dpath="params/fastq_screen/aligner", within=config),
+        subset=lookup(dpath="params/fastq_screen/subset", within=config),
+        fastq_screen_config=lookup(
+            dpath="params/fastq_screen/fastq_screen_config", within=config
+        ),
     wrapper:
         "v3.3.6/bio/fastq_screen"
 
 
 use rule fair_fastqc_multiqc_fastq_screen_single_ended as fair_fastqc_multiqc_fastq_screen_pair_ended with:
+    input:
+        sample="tmp/fair_fastqc_multiqc/link_or_concat_pair_ended_input/{sample}.{stream}.fastq.gz",
     output:
-        txt=temp("tmp/fastq_screen/{sample}.{stream}.fastq_screen.txt"),
+        txt=temp(
+            "tmp/fair_fastqc_multiqc/fastq_screen_pair_ended/{sample}.{stream}.fastq_screen.txt"
+        ),
         tmp="results/QC/fastq_screen/{sample}.{stream}.fastq_screen.png",
     log:
-        "logs/fastq_screen/{sample}.{stream}.log",
+        "logs/fair_fastqc_multiqc/fastq_screen_pair_ended/{sample}.{stream}.log",
     benchmark:
-        "benchmark/fastq_screen/{sample}.{stream}.tsv"
+        "benchmark/fair_fastqc_multiqc/fastq_screen_pair_ended/{sample}.{stream}.tsv"

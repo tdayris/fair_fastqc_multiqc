@@ -11,7 +11,12 @@ snakefiles := \
 	"../workflow/Snakefile" \
 	"../workflow/rules/fastqc.smk" \
 	"../workflow/rules/fastq_screen.smk" \
-	"../workflow/rules/multiqc.smk"
+	"../workflow/rules/multiqc.smk" \
+	"../workflow/rules/prepare_input.smk" \
+
+
+python_scripts := \
+	"../workflow/scripts/link_or_concat.py"
 
 .PHONY: all
 all: report.txt
@@ -38,15 +43,19 @@ pipeline.txt: linter.txt
 		2>&1 | tee pipeline.txt
 
 
+linter.txt: format.txt black.txt
+	mamba activate test-snakemake-wrappers && \
+	snakemake -s ../workflow/Snakefile \
+		--lint 2>&1 | tee linter.txt
+
+
 format.txt:
 	mamba activate test-snakemake-wrappers && \
 	snakefmt $(snakefiles) 2>&1 | tee format.txt
 
-
-linter.txt: format.txt
+black.txt:
 	mamba activate test-snakemake-wrappers && \
-	snakemake -s ../workflow/Snakefile \
-		--lint 2>&1 | tee linter.txt
+	black $(python_scripts) 2>&1 | tee black.txt
 
 
 .PHONY: clean

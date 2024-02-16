@@ -74,31 +74,7 @@ wildcard_constraints:
     stream=r"|".join(stream_list),
 
 
-def get_partition(
-    wildcards: snakemake.io.Wildcards,
-    attempt: int,
-    multiplier: int = 1,
-    config: dict[str, Any] = config,
-) -> str | None:
-    """
-    If, and only if pipeline is run at Gustave Roussy, this function returns a
-    string. Else, it returns None.
-    """
-    hostname: str = os.environ.get("HOSTNAME", "").lower()
-    runtime: int = attempt * multiplier
-    if hostname.startswith("flamingo"):
-        if runtime <= 60 * 6:
-            return "shortq"
-        if job.resources.runtime <= 60 * 24:
-            partition = "mediumq"
-        if job.resources.runtime <= 60 * 24 * 7:
-            partition = "longq"
-        if job.resources.runtime <= 60 * 24 * 60:
-            partition = "verylongq"
-        return "shortq"
-
-
-def get_fastqc_fastqscreen_input(
+def get_fair_fastqc_multiqc_link_or_concat_single_ended_input(
     wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame = samples
 ) -> str:
     """
@@ -120,8 +96,8 @@ def get_fastqc_fastqscreen_input(
     if "stream" in wildcards.keys():
         stream: str = str(wildcards.stream)
         if stream == "2":
-            return {"fastq": sample_data.downstream_file}
-    return {"fastq": sample_data.upstream_file}
+            return sample_data.downstream_file
+    return sample_data.upstream_file
 
 
 def get_multiqc_report_input(
@@ -155,14 +131,14 @@ def get_multiqc_report_input(
             stream=stream_list,
         ),
         "fastq_screen_single_ended": collect(
-            "tmp/fastq_screen/{single_ended_data}.fastq_screen.txt",
+            "tmp/fair_fastqc_multiqc/fastq_screen_single_ended/{single_ended_data}.fastq_screen.txt",
             single_ended_data=lookup(
                 query="downstream_file != downstream_file",
                 within=samples
             ).sample_id,
         ),
         "fastq_screen_pair_ended": collect(
-            "tmp/fastq_screen/{pair_ended_data}.{stream}.fastq_screen.txt",
+            "tmp/fair_fastqc_multiqc/fastq_screen_pair_ended/{pair_ended_data}.{stream}.fastq_screen.txt",
             pair_ended_data=lookup(
                 query="downstream_file == downstream_file",
                 within=samples

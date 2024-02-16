@@ -2,6 +2,7 @@ include: "rules/common.smk"
 include: "rules/fastq_screen.smk"
 include: "rules/fastqc.smk"
 include: "rules/multiqc.smk"
+include: "rules/prepare_input.smk"
 
 
 rule fair_fastqc_multiqc_target:

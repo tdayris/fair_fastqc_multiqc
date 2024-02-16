@@ -1,6 +1,6 @@
 rule fair_fastqc_multiqc_fastqc_pair_ended:
     input:
-        unpack(get_fastqc_fastqscreen_input),
+        sample="tmp/fair_fastqc_multiqc/link_or_concat_pair_ended_input/{sample}.{stream}.fastq.gz",
     output:
         html=report(
             "results/QC/report_pe/{sample}.{stream}.html",
@@ -17,20 +17,23 @@ rule fair_fastqc_multiqc_fastqc_pair_ended:
     threads: 1
     resources:
         mem_mb=lambda wildcards, attempt: attempt * (1024 * 2),
-        runtime=lambda wildcards, attempt: attempt * 30,
+        runtime=lambda wildcards, input, attempt: attempt
+        * 10
+        * max(1, int(input.size_mb / 1024)),
         tmpdir="tmp",
-        slurm_partition=lambda wildcards, attempt: get_partition(wildcards, attempt, 30),
     log:
-        "logs/fastqc/{sample}.{stream}.log",
+        "logs/fair_fastqc_multiqc/fastqc_pair_ended/{sample}.{stream}.log",
     benchmark:
-        "benchmark/fastqc/{sample}.{stream}.tsv"
+        "benchmark/fair_fastqc_multiqc/fastqc_pair_ended/{sample}.{stream}.tsv"
     params:
-        extra=config.get("params", {}).get("fastqc", ""),
+        extra=lookup(dpath="params/fastqc", within=config),
     wrapper:
         "v3.3.6/bio/fastqc"
 
 
 use rule fair_fastqc_multiqc_fastqc_pair_ended as fair_fastqc_multiqc_fastqc_single_ended with:
+    input:
+        sample="tmp/fair_fastqc_multiqc/link_or_concat_single_ended_input/{sample}.fastq.gz",
     output:
         html=report(
             "results/QC/report_pe/{sample}.html",
@@ -45,6 +48,6 @@ use rule fair_fastqc_multiqc_fastqc_pair_ended as fair_fastqc_multiqc_fastqc_sin
         ),
         zip="results/QC/report_pe/{sample}_fastqc.zip",
     log:
-        "logs/fastqc/{sample}.log",
+        "logs/fair_fastqc_multiqc/fastqc_single_ended/{sample}.log",
     benchmark:
-        "benchmark/fastqc/{sample}.tsv"
+        "benchmark/fair_fastqc_multiqc/fastqc_single_ended/{sample}.tsv"

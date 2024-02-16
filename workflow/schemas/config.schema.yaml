@@ -11,7 +11,7 @@ samples:
 
 params:
   type: object
-  description: Optional parameters for FastQC and MultiQC
+  description: Optional parameters for FastQC, MultiQC, and FastQScreen
   fastqc:
     type: string
     description: Optional parameters for FastQC
@@ -30,6 +30,15 @@ params:
       type: string
       description: Aligner used to index references
       pattern: "^bowtie2?"
+    required:
+      - subset
+      - fastq_screen_config
+      - aligner
+  required:
+    - fastqc
+    - multiqc
+    - fastq_screen
 
 required:
   - samples
+  - params

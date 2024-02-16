@@ -1,4 +1,4 @@
-rule fair_fastqc_multiqc_report:
+rule fair_fastqc_multiqc_multiqc_report:
     input:
         unpack(get_multiqc_report_input),
     output:
@@ -16,18 +16,16 @@ rule fair_fastqc_multiqc_report:
     threads: 1
     resources:
         mem_mb=lambda wildcards, attempt: attempt * (1024 * 2),
-        runtime=lambda wildcards, attempt: attempt * 30,
+        runtime=lambda wildcards, input, attempt: attempt
+        * 30
+        * max(1, int(input.size_mb / 1024)),
         tmpdir="tmp",
-        slurm_partition=lambda wildcards, attempt: get_partition(wildcards, attempt, 30),
     params:
-        extra=config.get("params", {}).get(
-            "multiqc",
-            "--module fastqc --module fastq_screen --zip-data-dir --verbose --no-megaqc-upload --no-ansi --force",
-        ),
+        extra=lookup(dpath="params/multiqc", within=config),
         use_input_files_only=True,
     log:
-        "logs/multiqc.log",
+        "logs/fair_fastqc_multiqc/multiqc_report.log",
     benchmark:
-        "benchmark/multiqc.tsv"
+        "benchmark/fair_fastqc_multiqc/multiqc_report.tsv"
     wrapper:
         "v3.3.6/bio/multiqc"

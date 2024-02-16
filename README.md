@@ -18,12 +18,31 @@ A complete description of the results can be found here in [workflow reports](ht
 
 The tools used in this pipeline are described [here](https://github.com/tdayris/fair_fastqc_multiqc/blob/main/workflow/report/material_methods.rst) textually.
 
-![workflow_rulegraph](dag.png)
+```
+
+       ┌────────────────────────┐
+       │  Copy / Link / Concat  │
+       └─┬───────────────────┬──┘
+         │                   │
+┌────────▼─┐             ┌───▼────────────┐
+│          │             │                │
+│  FastQC  │             │  FastQ-Screen  │
+│          │             │   (Optional)   │
+└─────┬────┘             └─────┬──────────┘
+      │                        │
+      │                        │
+      │     ┌───────────┐      │
+      │     │           │      │
+      └─────►  MultiQC  ◄──────┘
+            │           │
+            └───────────┘
+
+```
 
 ### QC
 
-| Step    | Wrapper                                                                                        |
-| ------- | ---------------------------------------------------------------------------------------------- |
-| FastQC  | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/fastqc.html)     |
-| FastQC  | [fastq-screen](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/fastq_screen.html) |
-| MultiQC | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/multiqc.html)   |
+| Step       | Wrapper                                                                                        |
+| ---------- | ---------------------------------------------------------------------------------------------- |
+| FastQC     | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/fastqc.html)     |
+| FastScreen | [fastq-screen](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/fastq_screen.html) |
+| MultiQC    | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/multiqc.html)   |
