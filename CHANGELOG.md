@@ -1,3 +1,9 @@
+# 2.0.3
+
+## Fixes:
+
+* AttributeError when empty lookup list is returned
+
 # 2.0.2
 
 ## Features:

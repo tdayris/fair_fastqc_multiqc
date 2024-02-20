@@ -24,4 +24,4 @@ whole pipeline was powered by Snakemake_ [#snakemakepaper]_.
 :Authors:
     Thibault Dayris
 
-:Version: 2.0.2 of 02/15/2024
+:Version: 2.0.3 of 02/15/2024
