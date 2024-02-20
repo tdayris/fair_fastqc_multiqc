@@ -284,6 +284,8 @@ log_cmd: str = snakemake.log_fmt_shell(stdout=True, stderr=True, append=True)
 shell(f"mkdir --parent --verbose {output_directory} {log_cmd}")
 
 sources = snakemake.params.get("in_files", snakemake.input)
+if isinstance(sources, list) and len(sources) == 1:
+    sources = sources[0]
 destinations = snakemake.output
 
 copy_or_concat(

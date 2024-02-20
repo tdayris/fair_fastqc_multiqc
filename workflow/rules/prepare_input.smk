@@ -15,8 +15,9 @@ rule fair_fastqc_multiqc_link_or_concat_single_ended_input:
     benchmark:
         "benchmark/fair_fastqc_multiqc/link_or_concat_single_ended_input/{sample}.tsv"
     params:
-        in_files=lambda wildcards: get_fair_fastqc_multiqc_link_or_concat_single_ended_input(
-            wildcards
+        in_files=collect(
+            "{sample.upstream_file}",
+            sample=lookup(query="sample_id == '{sample}'", within=samples),
         ),
     conda:
         "../envs/python.yaml"
@@ -33,3 +34,15 @@ use rule fair_fastqc_multiqc_link_or_concat_single_ended_input as fair_fastqc_mu
         "logs/fair_fastqc_multiqc/link_or_concat_pair_ended_input/{sample}.{stream}.log",
     benchmark:
         "benchmark/fair_fastqc_multiqc/link_or_concat_pair_ended_input/{sample}.{stream}.tsv"
+    params:
+        in_files=branch(
+            "{stream} == 1",
+            then=collect(
+                "{sample.upstream_file}",
+                sample=lookup(query="sample_id == '{sample}'", within=samples),
+            ),
+            otherwise=collect(
+                "{sample.downstream_file}",
+                sample=lookup(query="sample_id == '{sample}'", within=samples),
+            ),
+        ),

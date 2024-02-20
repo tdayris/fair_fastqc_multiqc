@@ -74,32 +74,6 @@ wildcard_constraints:
     stream=r"|".join(stream_list),
 
 
-def get_fair_fastqc_multiqc_link_or_concat_single_ended_input(
-    wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame = samples
-) -> str:
-    """
-    Return expected input files for FastQC, according to user-input,
-    and snakemake-wrapper requirements
-
-    Parameters:
-    wildcards (snakemake.io.Wildcards): Required for snakemake unpacking function
-    samples   (pandas.DataFrame)      : Describe samples and their genome
-
-    Return (str):
-    Path to a fastq file, as required by FastQC's snakemake-wrapper
-    """
-    sample: str = str(wildcards.sample)
-    sample_data: NamedTuple = lookup(
-        query=f"sample_id == '{sample}'",
-        within=samples
-    )
-    if "stream" in wildcards.keys():
-        stream: str = str(wildcards.stream)
-        if stream == "2":
-            return sample_data.downstream_file
-    return sample_data.upstream_file
-
-
 def get_multiqc_report_input(
     wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame = samples
 ) -> dict[str, list[str]]:
