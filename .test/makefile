@@ -9,6 +9,7 @@ MAKEFLAGS += --no-builtin-rules
 # List of snakefiles to lint
 snakefiles := \
 	"../workflow/Snakefile" \
+	"../workflow/rules/common.smk" \
 	"../workflow/rules/fastqc.smk" \
 	"../workflow/rules/fastq_screen.smk" \
 	"../workflow/rules/multiqc.smk" \

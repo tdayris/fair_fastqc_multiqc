@@ -64,7 +64,9 @@ else:
 
 snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 
+
 report: "../report/workflows.rst"
+
 
 stream_list: list[str] = ["1", "2"]
 
@@ -92,30 +94,26 @@ def get_multiqc_report_input(
         "fastqc_single_ended": collect(
             "results/QC/report_pe/{single_ended_data.sample_id}_fastqc.zip",
             single_ended_data=lookup(
-                query="downstream_file != downstream_file",
-                within=samples
+                query="downstream_file != downstream_file", within=samples
             ),
         ),
         "fastqc_pair_ended": collect(
             "results/QC/report_pe/{pair_ended_data.sample_id}.{stream}_fastqc.zip",
             pair_ended_data=lookup(
-                query="downstream_file == downstream_file",
-                within=samples
+                query="downstream_file == downstream_file", within=samples
             ),
             stream=stream_list,
         ),
         "fastq_screen_single_ended": collect(
             "tmp/fair_fastqc_multiqc/fastq_screen_single_ended/{single_ended_data.sample_id}.fastq_screen.txt",
             single_ended_data=lookup(
-                query="downstream_file != downstream_file",
-                within=samples
+                query="downstream_file != downstream_file", within=samples
             ),
         ),
         "fastq_screen_pair_ended": collect(
             "tmp/fair_fastqc_multiqc/fastq_screen_pair_ended/{pair_ended_data.sample_id}.{stream}.fastq_screen.txt",
             pair_ended_data=lookup(
-                query="downstream_file == downstream_file",
-                within=samples
+                query="downstream_file == downstream_file", within=samples
             ),
             stream=stream_list,
         ),
