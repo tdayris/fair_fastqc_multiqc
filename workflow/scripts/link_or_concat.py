@@ -32,6 +32,7 @@ def on_flamingo() -> bool:
     """
     Return True if pipeline is executed at GustaveRoussy's computing cluster: Flamingo
     """
+    logging.debug("Checking host...")
     return os.environ.get("HOSTNAME", "").lower().startswith("flamingo")
 
 
@@ -68,6 +69,7 @@ def consider_compression(copy_func: Callable) -> None:
                 shell(cmd)
 
         else:
+            logging.debug("Source was gzipped.")
             copy_func(*args, **kwargs)
 
     return handle_gzip
@@ -84,6 +86,7 @@ def bash_rsync(src: str, dest: str) -> None:
 
     Return (None)
     """
+    logging.info(f"Running `rsync` on {src=}, to {dest=}")
     log_cmd: str = snakemake.log_fmt_shell(stdout=True, stderr=True, append=True)
 
     # Consider possible temporary directory use with rsync
@@ -111,6 +114,7 @@ def bash_iget(src: str, dest: str, threads: int = 0) -> None:
 
     Return (None)
     """
+    logging.info(f"Running `iget` on {src=}, to {dest=}")
     log_cmd: str = snakemake.log_fmt_shell(stdout=True, stderr=True, append=True)
 
     # Build and execute command line
@@ -130,6 +134,7 @@ def bash_ln(src: str, dest: str) -> None:
 
     Return (None)
     """
+    logging.info(f"Running `ln` on {src=}, to {dest=}")
     log_cmd: str = snakemake.log_fmt_shell(stdout=True, stderr=True, append=True)
 
     # Build and execute command line
@@ -148,6 +153,7 @@ def cat_files(dest: str, *src: list[str]) -> None:
 
     Return (None)
     """
+    logging.info(f"Running `cat` on {src=}, to {dest=}")
     log_cmd: str = snakemake.log_fmt_shell(stdout=False, stderr=True, append=True)
     infiles: str = " ".join(src)
 
@@ -172,9 +178,10 @@ def make_available(
 
     Return (None)
     """
+    logging.info(f"Making {src=} available at {dest=}")
     if src.lower().startswith(cold_storage):
         bash_rsync(src=src, dest=dest)
-    elif src.lower().startswith(irods_prefix):
+    elif src.lower().startswith(irods_prefix) and on_flamingo():
         bash_iget(src=src, dest=dest)
     else:
         bash_ln(src=src, dest=dest)
@@ -199,6 +206,7 @@ def copy_then_concat(
     Return (None)
     """
     with TemporaryDirectory() as tmpdir:
+        logging.info(f"Using {tmpdir=} to concatenate {src=} to {dest=}")
         outfiles = []
         for path in src:
             tmp_dest = f"{tmpdir}/{os.path.basename(path)}.{randint(0, 100_000_000)}"
@@ -224,6 +232,10 @@ def copy_or_concat(
 
     Return (None)
     """
+    logging.debug(
+        f"Choosing whether {src=} should be "
+        f"concatenated, linked, or copied to {dest=}"
+    )
     src_sep: str | None = None
     src_len: int = 1
     if "," in src:
@@ -232,7 +244,11 @@ def copy_or_concat(
         src_sep = ";"
 
     if src_sep:
-        src: list[str] = src
+        logging.debug(
+            "Source file string is a list separated by "
+            f"`{src_sep}`. Splitting it into a list."
+        )
+        src: list[str] = src.split(src_sep)
         src_len = len(src)
 
     dest_sep: str | None = None
@@ -243,11 +259,14 @@ def copy_or_concat(
         dest_sep = ";"
 
     if dest_sep:
-        dest: list[str] = dest
+        logging.debug(
+            "Destination file string is a list separated by "
+            f"`{src_sep}`. Splitting it into a list."
+        )
+        dest: list[str] = dest.split(dest_sep)
         dest_len = len(dest)
 
     if src_len == dest_len == 1:
-        dest = dest[0]
         logging.info(f"Making {src} available at {dest}")
         make_available(src, dest, cold_storage, irods_prefix)
     elif src_len == dest_len:
@@ -255,7 +274,6 @@ def copy_or_concat(
             logging.info(f"Making {source} available at {destination}")
             make_available(source, destination, cold_storage, irods_prefix)
     elif (src_len > 1) and (dest_len == 1):
-        dest = dest[0]
         logging.info(f"Concatenating each {src} in {dest}")
         copy_then_concat(dest, cold_storage, irods_prefix, *src)
     else:
@@ -285,8 +303,13 @@ shell(f"mkdir --parent --verbose {output_directory} {log_cmd}")
 
 sources = snakemake.params.get("in_files", snakemake.input)
 if isinstance(sources, list) and len(sources) == 1:
+    logging.debug(f"{sources=} is a list of one element, casting it as a string")
     sources = sources[0]
+
 destinations = snakemake.output
+if isinstance(destinations, list) and len(destinations) == 1:
+    logging.debug(f"{destinations=} is a list of one element, casting it as a string")
+    destinations = destinations[0]
 
 copy_or_concat(
     dest=destinations, src=sources, cold_storage=cold_storage, irods_prefix=irods_prefix
