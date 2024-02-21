@@ -1,3 +1,10 @@
+# 2.0.4
+
+## Features:
+
+* Debug logs in `link_or_concat.py`
+
+
 # 2.0.3
 
 ## Fixes:
