@@ -17,7 +17,7 @@ rule fair_fastqc_multiqc_link_or_concat_single_ended_input:
     params:
         in_files=collect(
             "{sample.upstream_file}",
-            sample=lookup(query="sample_id == '{sample}'", within=samples),
+            sample=lookup(query="sample_id == '{sample}' & downstream_file != downstream_file", within=samples),
         ),
     conda:
         "../envs/python.yaml"
@@ -39,10 +39,10 @@ use rule fair_fastqc_multiqc_link_or_concat_single_ended_input as fair_fastqc_mu
             "{stream} == 1",
             then=collect(
                 "{sample.upstream_file}",
-                sample=lookup(query="sample_id == '{sample}'", within=samples),
+                sample=lookup(query="sample_id == '{sample}' & downstream_file == downstream_file", within=samples),
             ),
             otherwise=collect(
                 "{sample.downstream_file}",
-                sample=lookup(query="sample_id == '{sample}'", within=samples),
+                sample=lookup(query="sample_id == '{sample}' & downstream_file == downstream_file", within=samples),
             ),
         ),
