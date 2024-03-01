@@ -9,7 +9,7 @@ rule fair_fastqc_multiqc_link_or_concat_single_ended_input:
         runtime=lambda wildcards, input, attempt: attempt
         * max(1, int(input.size_mb / 1024))
         * 15,
-        tmpdir="tmp",
+        tmpdir=tmp,
     log:
         "logs/fair_fastqc_multiqc/link_or_concat_single_ended_input/{sample}.log",
     benchmark:
@@ -17,7 +17,10 @@ rule fair_fastqc_multiqc_link_or_concat_single_ended_input:
     params:
         in_files=collect(
             "{sample.upstream_file}",
-            sample=lookup(query="sample_id == '{sample}' & downstream_file != downstream_file", within=samples),
+            sample=lookup(
+                query="sample_id == '{sample}' & downstream_file != downstream_file",
+                within=samples,
+            ),
         ),
     conda:
         "../envs/python.yaml"
@@ -39,10 +42,16 @@ use rule fair_fastqc_multiqc_link_or_concat_single_ended_input as fair_fastqc_mu
             "{stream} == 1",
             then=collect(
                 "{sample.upstream_file}",
-                sample=lookup(query="sample_id == '{sample}' & downstream_file == downstream_file", within=samples),
+                sample=lookup(
+                    query="sample_id == '{sample}' & downstream_file == downstream_file",
+                    within=samples,
+                ),
             ),
             otherwise=collect(
                 "{sample.downstream_file}",
-                sample=lookup(query="sample_id == '{sample}' & downstream_file == downstream_file", within=samples),
+                sample=lookup(
+                    query="sample_id == '{sample}' & downstream_file == downstream_file",
+                    within=samples,
+                ),
             ),
         ),
