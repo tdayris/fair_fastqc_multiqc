@@ -1,3 +1,7 @@
+.test/.cache/
+.test/.conda/
+.test/.condarc
+.test/.java/
 .test/linter.txt
 .test/format.txt
 .test/pipeline.txt
