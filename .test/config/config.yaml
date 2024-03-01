@@ -6,7 +6,7 @@ params:
   # fastqc optional parameters
   fastqc: ""
   # multiqc optional parameters
-  multiqc: "--module fastqc --module fastq_screen --zip-data-dir --verbose --no-megaqc-upload --no-ansi --force"
+  multiqc: "--verbose --no-megaqc-upload --no-ansi --force"
   # Optional parameters for FastQ Screen
   fastq_screen:
     # Number of reads processed

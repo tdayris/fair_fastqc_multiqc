@@ -1,5 +1,6 @@
 import csv
 import functools
+import os
 import pandas
 import snakemake
 import snakemake.utils
@@ -11,9 +12,8 @@ from typing import Any, NamedTuple
 
 snakemake.utils.min_version("8.1.0")
 
-# containerized: "docker://snakemake/snakemake:latest"
-# containerized: "docker://mambaorg/micromamba:git-8440cec-jammy-cuda-12.2.0"
-# containerized: "docker://condaforge/mambaforge:23.3.1-1"
+
+container: "docker://snakemake/snakemake:v8.5.3"
 
 
 # Load and check configuration file
@@ -69,6 +69,7 @@ report: "../report/workflows.rst"
 
 
 stream_list: list[str] = ["1", "2"]
+tmp: str = f"{os.getcwd()}/tmp"
 
 
 wildcard_constraints:

@@ -20,7 +20,7 @@ rule fair_fastqc_multiqc_fastqc_pair_ended:
         runtime=lambda wildcards, input, attempt: attempt
         * 10
         * max(1, int(input.size_mb / 1024)),
-        tmpdir="tmp",
+        tmpdir=tmp,
     log:
         "logs/fair_fastqc_multiqc/fastqc_pair_ended/{sample}.{stream}.log",
     benchmark:
@@ -28,7 +28,7 @@ rule fair_fastqc_multiqc_fastqc_pair_ended:
     params:
         extra=lookup(dpath="params/fastqc", within=config),
     wrapper:
-        "v3.3.6/bio/fastqc"
+        "v3.4.0/bio/fastqc"
 
 
 use rule fair_fastqc_multiqc_fastqc_pair_ended as fair_fastqc_multiqc_fastqc_single_ended with:

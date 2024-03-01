@@ -1,3 +1,16 @@
+# 2.1.0
+
+## Features:
+
+* Snakemake wrappers updated to 3.4.0: including an exciting MultiQC update!
+* A dedicated MultiQC configuration file is created
+* Pipeline containerized
+
+## Fixes:
+
+* Documentation errors
+* Report typos
+
 # 2.0.4
 
 ## Features:

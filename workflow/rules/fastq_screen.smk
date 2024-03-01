@@ -12,7 +12,7 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
         runtime=lambda wildcards, input, attempt: attempt
         * 15
         * max(1, int(input.size_mb / 1024)),
-        tmpdir="tmp",
+        tmpdir=tmp,
     log:
         "logs/fair_fastqc_multiqc/fastq_screen_single_ended/{sample}.log",
     benchmark:
@@ -24,7 +24,7 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
             dpath="params/fastq_screen/fastq_screen_config", within=config
         ),
     wrapper:
-        "v3.3.6/bio/fastq_screen"
+        "v3.4.0/bio/fastq_screen"
 
 
 use rule fair_fastqc_multiqc_fastq_screen_single_ended as fair_fastqc_multiqc_fastq_screen_pair_ended with:
