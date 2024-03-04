@@ -2,7 +2,7 @@
 
 ## Features:
 
-* Snakemake wrappers updated to 3.4.0: including an exciting MultiQC update!
+* Snakemake wrappers updated to 3.4.1: including an exciting MultiQC update!
 * A dedicated MultiQC configuration file is created
 * Pipeline containerized
 
