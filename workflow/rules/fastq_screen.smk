@@ -24,7 +24,7 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
             dpath="params/fastq_screen/fastq_screen_config", within=config
         ),
     wrapper:
-        "v3.4.0/bio/fastq_screen"
+        "v3.4.1/bio/fastq_screen"
 
 
 use rule fair_fastqc_multiqc_fastq_screen_single_ended as fair_fastqc_multiqc_fastq_screen_pair_ended with:

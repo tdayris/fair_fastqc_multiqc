@@ -118,6 +118,8 @@ def get_multiqc_report_input(
             ),
             stream=stream_list,
         ),
+        "config": "tmp/fair_fastqc_multiqc/multiqc_config.yaml",
+        "logo": "tmp/fair_fastqc_multiqc/bigr_logo.png",
     }
 
     if not config.get("params", {}).get("fastq_screen", {}).get("fastq_screen_config"):
