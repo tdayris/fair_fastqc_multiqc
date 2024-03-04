@@ -75,4 +75,5 @@ clean:
 		   dag.png \
 		   report.zip \
 		   report \
-		   black.txt
+		   black.txt \
+		   .wget-hsts
