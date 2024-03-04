@@ -1,4 +1,28 @@
+rule fair_fastqc_multiqc_bigr_logo:
+    output:
+        "tmp/fair_fastqc_multiqc/bigr_logo.png",
+    threads: 1
+    resources:
+        mem_mb=lambda wildcards, attempt: attempt * 512,
+        runtime=lambda wildcards, attempt: attempt * 10,
+        tmpdir=tmp,
+    localrule: True
+    log:
+        "logs/fair_fastqc_multiqc/bigr_logo.log",
+    benchmark:
+        "benchmark/fair_fastqc_multiqc/bigr_logo.tsv"
+    params:
+        extra="--verbose",
+        address="https://raw.githubusercontent.com/tdayris/fair_fastqc_multiqc/main/images/bigr_logo.png",
+    conda:
+        "../envs/bash.yaml"
+    shell:
+        "wget {params.extra} --output-document {output} {params.address} > {log} 2>&1"
+
+
 rule fair_fastqc_multiqc_multiqc_config:
+    input:
+        "tmp/fair_fastqc_multiqc/bigr_logo.png",
     output:
         temp("tmp/fair_fastqc_multiqc/multiqc_config.yaml"),
     threads: 1
@@ -12,7 +36,7 @@ rule fair_fastqc_multiqc_multiqc_config:
     benchmark:
         "benchmark/fair_fastqc_multiqc/multiqc_config.tsv"
     params:
-        extra={
+        extra=lambda wildcards, input: {
             "title": "Raw quality control report",
             "subtitle": "Produced on raw fastq recieved from sequencer",
             "intro_text": (
@@ -26,8 +50,8 @@ rule fair_fastqc_multiqc_multiqc_config:
             ),
             "show_analysis_paths": False,
             "show_analysis_time": False,
-            "custom_logo": str(workflow.source_path("../../images/bigr_logo.png")),
-            "custom_logo_url": "https://www.gustaveroussy.fr/en",
+            "custom_logo": input[0],
+            "custom_logo_url": "https://bioinfo_gustaveroussy.gitlab.io/bigr/webpage/",
             "custom_logo_title": "Bioinformatics Platform @ Gustave Roussy",
             "report_header_info": [
                 {"Contact E-mail": "bigr@gustaveroussy.fr"},
@@ -65,7 +89,6 @@ rule fair_fastqc_multiqc_multiqc_config:
 
 rule fair_fastqc_multiqc_multiqc_report:
     input:
-        "tmp/fair_fastqc_multiqc/multiqc_config.yaml",
         unpack(get_multiqc_report_input),
     output:
         report(
@@ -94,4 +117,4 @@ rule fair_fastqc_multiqc_multiqc_report:
     benchmark:
         "benchmark/fair_fastqc_multiqc/multiqc_report.tsv"
     wrapper:
-        "v3.4.0/bio/multiqc"
+        "v3.4.1/bio/multiqc"
