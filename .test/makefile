@@ -76,4 +76,8 @@ clean:
 		   report.zip \
 		   report \
 		   black.txt \
-		   .wget-hsts
+		   .wget-hsts \
+		   .conda \
+		   .cache \
+		   .java \
+		   .snakemake
