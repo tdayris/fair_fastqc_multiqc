@@ -110,7 +110,7 @@ rule fair_fastqc_multiqc_multiqc_report:
         * max(1, int(input.size_mb / 1024)),
         tmpdir=tmp,
     params:
-        extra=lookup(dpath="params/multiqc", within=config),
+        extra=lookup(dpath="params/fair_fastqc_multiqc/multiqc", within=config),
         use_input_files_only=True,
     log:
         "logs/fair_fastqc_multiqc/multiqc_report.log",

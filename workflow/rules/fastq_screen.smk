@@ -18,10 +18,15 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
     benchmark:
         "benchmark/fair_fastqc_multiqc/fastq_screen_single_ended/{sample}.tsv"
     params:
-        aligner=lookup(dpath="params/fastq_screen/aligner", within=config),
-        subset=lookup(dpath="params/fastq_screen/subset", within=config),
+        aligner=lookup(
+            dpath="params/fair_fastqc_multiqc/fastq_screen/aligner", within=config
+        ),
+        subset=lookup(
+            dpath="params/fair_fastqc_multiqc/fastq_screen/subset", within=config
+        ),
         fastq_screen_config=lookup(
-            dpath="params/fastq_screen/fastq_screen_config", within=config
+            dpath="params/fair_fastqc_multiqc/fastq_screen/fastq_screen_config",
+            within=config,
         ),
     wrapper:
         "v3.4.1/bio/fastq_screen"

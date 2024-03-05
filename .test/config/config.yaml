@@ -3,18 +3,19 @@ samples: config/samples.csv
 
 # Optional parameters
 params:
-  # fastqc optional parameters
-  fastqc: ""
-  # multiqc optional parameters
-  multiqc: "--verbose --no-megaqc-upload --no-ansi --force --config 'tmp/fair_fastqc_multiqc/multiqc_config.yaml'"
-  # Optional parameters for FastQ Screen
-  fastq_screen:
-    # Number of reads processed
-    subset: 100
-    # Aligner used to index dna sequences
-    aligner: bowtie2
-    # Path to configuration file
-    fastq_screen_config: ""
+  fair_fastqc_multiqc:
+    # fastqc optional parameters
+    fastqc: ""
+    # multiqc optional parameters
+    multiqc: "--verbose --no-megaqc-upload --no-ansi --force --config 'tmp/fair_fastqc_multiqc/multiqc_config.yaml'"
+    # Optional parameters for FastQ Screen
+    fastq_screen:
+      # Number of reads processed
+      subset: 100
+      # Aligner used to index dna sequences
+      aligner: bowtie2
+      # Path to configuration file
+      fastq_screen_config: ""
 
 # Optional path to a file describing genomes
 genomes: config/genomes.csv

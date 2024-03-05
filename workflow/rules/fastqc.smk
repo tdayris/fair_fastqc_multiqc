@@ -26,7 +26,7 @@ rule fair_fastqc_multiqc_fastqc_pair_ended:
     benchmark:
         "benchmark/fair_fastqc_multiqc/fastqc_pair_ended/{sample}.{stream}.tsv"
     params:
-        extra=lookup(dpath="params/fastqc", within=config),
+        extra=lookup(dpath="params/fair_fastqc_multiqc/fastqc", within=config),
     wrapper:
         "v3.4.0/bio/fastqc"
 
