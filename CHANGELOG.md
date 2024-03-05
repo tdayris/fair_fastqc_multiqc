@@ -1,3 +1,9 @@
+# 2.1.1
+
+## Features:
+
+* Changes in configuration
+
 # 2.1.0
 
 ## Features:
