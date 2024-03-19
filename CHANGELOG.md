@@ -1,3 +1,10 @@
+# 2.2.0
+
+## Features
+
+* Configuration keys are *all* optional
+* Snakemake wrappers update to version 3.5.2
+
 # 2.1.1
 
 ## Features:
