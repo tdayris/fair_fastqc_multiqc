@@ -3,19 +3,24 @@ samples: config/samples.csv
 
 # Optional parameters
 params:
+
+  # Optional parameters for this pipeline
   fair_fastqc_multiqc:
     # fastqc optional parameters
     fastqc: ""
+    
     # multiqc optional parameters
     multiqc: "--verbose --no-megaqc-upload --no-ansi --force --config 'tmp/fair_fastqc_multiqc/multiqc_config.yaml'"
+    
     # Optional parameters for FastQ Screen
     fastq_screen:
       # Number of reads processed
-      subset: 100
+      subset: 100000
       # Aligner used to index dna sequences
-      aligner: bowtie2
+      aligner: "bowtie2"
       # Path to configuration file
-      fastq_screen_config: ""
+      fastq_screen_config: "/mnt/beegfs/database/bioinfo/Index_DB/Fastq_Screen/0.14.0/fastq_screen.conf"
+    
 
 # Optional path to a file describing genomes
 genomes: config/genomes.csv

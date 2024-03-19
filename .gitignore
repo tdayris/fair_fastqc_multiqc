@@ -1,3 +1,5 @@
+.test/.wget-hsts
+.test/black.txt
 .test/.cache/
 .test/.conda/
 .test/.condarc
