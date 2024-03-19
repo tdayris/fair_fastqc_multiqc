@@ -11,33 +11,53 @@ samples:
 
 params:
   type: object
-  description: Optional parameters for FastQC, MultiQC, and FastQScreen
-  fastqc:
-    type: string
-    description: Optional parameters for FastQC
-  multiqc:
-    type: string
-    description: Optional parameters for MultiQC
-  fastq_screen:
+  description: Parameters for each (sub) pipelines
+  fair_fastqc_multiqc:
     type: object
-    subset:
-      type: integer
-      description: Number of reads used to build statistics
-    fastq_screen_config:
+    description: Optional parameters for FastQC, MultiQC, FastQScreen, and NGSDerive
+    fastqc:
       type: string
-      description: Path to fastq screen configuration
-    aligner:
+      description: Optional parameters for FastQC
+    multiqc:
       type: string
-      description: Aligner used to index references
-      pattern: "^bowtie2?"
+      description: Optional parameters for MultiQC
+    fastq_screen:
+      type: object
+      subset:
+        type: integer
+        description: Number of reads used to build statistics
+      fastq_screen_config:
+        type: string
+        description: Path to fastq screen configuration
+      aligner:
+        type: string
+        description: Aligner used to index references
+        pattern: "^bowtie2?"
+      required:
+        - subset
+        - fastq_screen_config
+        - aligner
+    ngsderive:
+      type: object
+      description: backward analyse your fastq
+      instrument:
+        type: string
+        description: estimate sequencing instrument
+      encoding:
+        type: string
+        description: estimate read encoding
+      readlen:
+        type: string
+        description: estimate original readlen
+      required:
+        - instrument
+        - encoding
+        - readlen
     required:
-      - subset
-      - fastq_screen_config
-      - aligner
-  required:
-    - fastqc
-    - multiqc
-    - fastq_screen
+      - fastqc
+      - multiqc
+      - fastq_screen
+      - ngsderive
 
 required:
   - samples

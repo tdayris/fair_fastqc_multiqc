@@ -18,18 +18,22 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
     benchmark:
         "benchmark/fair_fastqc_multiqc/fastq_screen_single_ended/{sample}.tsv"
     params:
-        aligner=lookup(
-            dpath="params/fair_fastqc_multiqc/fastq_screen/aligner", within=config
+        aligner=dlookup(
+            dpath="params/fair_fastqc_multiqc/fastq_screen/aligner",
+            within=config,
+            default="bowtie2",
         ),
         subset=lookup(
-            dpath="params/fair_fastqc_multiqc/fastq_screen/subset", within=config
+            dpath="params/fair_fastqc_multiqc/fastq_screen/subset",
+            within=config,
+            default=10000,
         ),
         fastq_screen_config=lookup(
             dpath="params/fair_fastqc_multiqc/fastq_screen/fastq_screen_config",
             within=config,
         ),
     wrapper:
-        "v3.4.1/bio/fastq_screen"
+        f"{snakemake_wrappers_prefix}/bio/fastq_screen"
 
 
 use rule fair_fastqc_multiqc_fastq_screen_single_ended as fair_fastqc_multiqc_fastq_screen_pair_ended with:

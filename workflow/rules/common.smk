@@ -68,6 +68,7 @@ snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 report: "../report/workflows.rst"
 
 
+snakemake_wrappers_prefix: str = "v3.5.2"
 stream_list: list[str] = ["1", "2"]
 tmp: str = f"{os.getcwd()}/tmp"
 
@@ -75,6 +76,28 @@ tmp: str = f"{os.getcwd()}/tmp"
 wildcard_constraints:
     sample=r"|".join(samples.sample_id),
     stream=r"|".join(stream_list),
+
+
+def dlookup(
+    dpath: str | None = None,
+    query: str | None = None,
+    cols: list[str] | None = None,
+    within=None,
+    default: str | int | None = None,
+) -> str:
+    value = None
+    try:
+        value = lookup(dpath=dpath, query=query, cols=cols, within=within)
+    except LookupError:
+        value = default
+    except WorkflowError:
+        value = default
+    except KeyError:
+        value = default
+    except AttributeError:
+        value = default
+
+    return value
 
 
 def get_multiqc_report_input(

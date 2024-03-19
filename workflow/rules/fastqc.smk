@@ -26,9 +26,11 @@ rule fair_fastqc_multiqc_fastqc_pair_ended:
     benchmark:
         "benchmark/fair_fastqc_multiqc/fastqc_pair_ended/{sample}.{stream}.tsv"
     params:
-        extra=lookup(dpath="params/fair_fastqc_multiqc/fastqc", within=config),
+        extra=dlookup(
+            dpath="params/fair_fastqc_multiqc/fastqc", within=config, default=""
+        ),
     wrapper:
-        "v3.4.0/bio/fastqc"
+        f"{snakemake_wrappers_prefix}/bio/fastqc"
 
 
 use rule fair_fastqc_multiqc_fastqc_pair_ended as fair_fastqc_multiqc_fastqc_single_ended with:
