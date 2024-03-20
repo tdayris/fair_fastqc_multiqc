@@ -33,10 +33,6 @@ params:
         type: string
         description: Aligner used to index references
         pattern: "^bowtie2?"
-      required:
-        - subset
-        - fastq_screen_config
-        - aligner
     ngsderive:
       type: object
       description: backward analyse your fastq
@@ -49,16 +45,3 @@ params:
       readlen:
         type: string
         description: estimate original readlen
-      required:
-        - instrument
-        - encoding
-        - readlen
-    required:
-      - fastqc
-      - multiqc
-      - fastq_screen
-      - ngsderive
-
-required:
-  - samples
-  - params

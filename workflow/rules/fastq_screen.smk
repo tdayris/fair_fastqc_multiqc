@@ -18,17 +18,17 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
     benchmark:
         "benchmark/fair_fastqc_multiqc/fastq_screen_single_ended/{sample}.tsv"
     params:
+        subset=dlookup(
+            dpath="params/fair_fastqc_multiqc/fastq_screen/subset",
+            within=config,
+            default=10000,
+        ),
         aligner=dlookup(
             dpath="params/fair_fastqc_multiqc/fastq_screen/aligner",
             within=config,
             default="bowtie2",
         ),
-        subset=lookup(
-            dpath="params/fair_fastqc_multiqc/fastq_screen/subset",
-            within=config,
-            default=10000,
-        ),
-        fastq_screen_config=lookup(
+        fastq_screen_config=dlookup(
             dpath="params/fair_fastqc_multiqc/fastq_screen/fastq_screen_config",
             within=config,
         ),

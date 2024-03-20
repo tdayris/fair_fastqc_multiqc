@@ -1,3 +1,10 @@
+# 2.2.1
+
+## Fix
+
+* Json schema
+
+
 # 2.2.0
 
 ## Features
