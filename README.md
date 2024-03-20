@@ -43,6 +43,6 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 
 | Step       | Wrapper                                                                                        |
 | ---------- | ---------------------------------------------------------------------------------------------- |
-| FastQC     | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/fastqc.html)     |
-| FastScreen | [fastq-screen](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/fastq_screen.html) |
-| MultiQC    | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/multiqc.html)   |
+| FastQC     | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.5.2/wrappers/fastqc.html)     |
+| FastScreen | [fastq-screen](https://snakemake-wrappers.readthedocs.io/en/v3.5.2/wrappers/fastq_screen.html) |
+| MultiQC    | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.5.2/wrappers/multiqc.html)   |
