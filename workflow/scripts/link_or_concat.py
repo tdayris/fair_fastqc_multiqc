@@ -10,6 +10,7 @@ __license__ = "MIT"
 
 import logging
 import os
+import os.path
 
 from random import randint
 from snakemake.shell import shell
@@ -54,11 +55,13 @@ def consider_compression(copy_func: Callable) -> None:
                     f"{kwargs['src']} was not compressed. Compressing it after copy/link/recovery."
                 )
                 dest: str = kwargs["dest"]
-                tmp_dest = f"{tmpdir}/unzipped"
+                tmp_dest = f"{tmpdir}/unzipped.tmp"
+
                 copy_func(
                     src=kwargs["src"],
                     dest=tmp_dest,
                 )
+
                 log_cmd: str = snakemake.log_fmt_shell(
                     stdout=False, stderr=True, append=True
                 )
@@ -96,7 +99,7 @@ def bash_rsync(src: str, dest: str) -> None:
         cmd: str = (
             f"rsync --temp-dir={bash_copy_or_link_tmpdir} "
             "--verbose --checksum --recursive "
-            "--human-readable --progress --partial"
+            "--human-readable --progress --partial "
             f"{src} {dest} {log_cmd}"
         )
         logging.debug(cmd)
@@ -134,13 +137,8 @@ def bash_ln(src: str, dest: str) -> None:
 
     Return (None)
     """
-    logging.info(f"Running `ln` on {src=}, to {dest=}")
-    log_cmd: str = snakemake.log_fmt_shell(stdout=True, stderr=True, append=True)
-
-    # Build and execute command line
-    cmd: str = f"ln --force --relative --symbolic --verbose {src} {dest} {log_cmd}"
-    logging.debug(cmd)
-    shell(cmd)
+    logging.info(f"Running `os.symlink` on {src=}, to {dest=}")
+    os.symlink(src=os.path.abspath(src), dst=dest)
 
 
 def cat_files(dest: str, *src: list[str]) -> None:
