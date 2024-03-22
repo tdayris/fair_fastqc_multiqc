@@ -1,3 +1,11 @@
+# 2.2.2
+
+## Fix:
+
+* Missing packages in python environment used for copy
+* Fix FileNotFoundError in apptainer when using this pipeline as an external module
+* `rsync` syntax error
+
 # 2.2.1
 
 ## Fix
