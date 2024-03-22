@@ -51,8 +51,8 @@ def consider_compression(copy_func: Callable) -> None:
         logging.debug(f"{args=}, {kwargs=}")
         if not kwargs["src"].lower().endswith("q.gz"):
             with TemporaryDirectory() as tmpdir:
-                if isinstance(kwargs["src"], str):
-                    logging.info("No in-between copy is required, gzipping directly.")
+                if isinstance(kwargs["src"], str) and os.path.exists(kwargs["src"]):
+                    logging.info("No in-between copy/link/recovery is required, gzipping directly.")
                     log_cmd: str = snakemake.log_fmt_shell(
                         stdout=False, stderr=True, append=True
                     )
