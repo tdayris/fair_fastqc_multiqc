@@ -137,8 +137,10 @@ def bash_ln(src: str, dest: str) -> None:
 
     Return (None)
     """
+    src = os.path.abspath(src) if not src.startswith("/") else src
+    dest = os.path.abspath(dest) if not dest.startswith("/") else dest
     logging.info(f"Running `os.symlink` on {src=}, to {dest=}")
-    os.symlink(src=os.path.abspath(src), dst=dest)
+    os.symlink(src=src, dst=dest)
 
 
 def cat_files(dest: str, *src: list[str]) -> None:
