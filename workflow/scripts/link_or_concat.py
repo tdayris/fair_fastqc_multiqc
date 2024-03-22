@@ -49,27 +49,38 @@ def consider_compression(copy_func: Callable) -> None:
 
     def handle_gzip(*args, **kwargs) -> None:
         logging.debug(f"{args=}, {kwargs=}")
-        if not kwargs["src"].lower().endswith(".gz"):
+        if not kwargs["src"].lower().endswith("q.gz"):
             with TemporaryDirectory() as tmpdir:
-                logging.info(
-                    f"{kwargs['src']} was not compressed. Compressing it after copy/link/recovery."
-                )
-                dest: str = kwargs["dest"]
-                tmp_dest = f"{tmpdir}/unzipped.tmp"
+                if isinstance(kwargs["src"], str):
+                    logging.info("No in-between copy is required, gzipping directly.")
+                    log_cmd: str = snakemake.log_fmt_shell(
+                        stdout=False, stderr=True, append=True
+                    )
+                    cmd: str = (
+                        f"gzip --verbose --force --stdout {kwargs['src']} > {kwargs['dest']} {log_cmd}"
+                    )
+                    logging.debug(cmd)
+                    shell(cmd)
+                else:
+                    logging.info(
+                        f"{kwargs['src']} was not compressed. Compressing it after copy/link/recovery."
+                    )
+                    dest: str = kwargs["dest"]
+                    tmp_dest = f"{tmpdir}/unzipped.tmp"
 
-                copy_func(
-                    src=kwargs["src"],
-                    dest=tmp_dest,
-                )
+                    copy_func(
+                        src=kwargs["src"],
+                        dest=tmp_dest,
+                    )
 
-                log_cmd: str = snakemake.log_fmt_shell(
-                    stdout=False, stderr=True, append=True
-                )
-                cmd: str = (
-                    f"gzip --verbose --force --stdout {tmp_dest} > {dest} {log_cmd}"
-                )
-                logging.debug(cmd)
-                shell(cmd)
+                    log_cmd: str = snakemake.log_fmt_shell(
+                        stdout=False, stderr=True, append=True
+                    )
+                    cmd: str = (
+                        f"gzip --verbose --force --stdout {tmp_dest} > {dest} {log_cmd}"
+                    )
+                    logging.debug(cmd)
+                    shell(cmd)
 
         else:
             logging.debug("Source was gzipped.")
