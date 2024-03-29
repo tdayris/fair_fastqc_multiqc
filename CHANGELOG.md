@@ -1,3 +1,9 @@
+# 2.2.3
+
+## Fix:
+
+* Since copies are done on node and not on login-node, the `on_flamingo()` flag is removed
+
 # 2.2.2
 
 ## Fix:
