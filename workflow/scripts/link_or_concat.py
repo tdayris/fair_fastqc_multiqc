@@ -29,14 +29,6 @@ except Exception:
     )
 
 
-def on_flamingo() -> bool:
-    """
-    Return True if pipeline is executed at GustaveRoussy's computing cluster: Flamingo
-    """
-    logging.debug("Checking host...")
-    return os.environ.get("HOSTNAME", "").lower().startswith("flamingo")
-
-
 def consider_compression(copy_func: Callable) -> None:
     """
     Decorator designed to handle fastq files compression
@@ -196,7 +188,7 @@ def make_available(
     )
     if src.lower().startswith(cold_storage):
         bash_rsync(src=src, dest=dest)
-    elif src.lower().startswith(irods_prefix) and on_flamingo():
+    elif src.lower().startswith(irods_prefix):
         bash_iget(src=src, dest=dest)
     else:
         bash_ln(src=src, dest=dest)
@@ -307,9 +299,7 @@ cold_storage: tuple[str] | str = snakemake.params.get(
     ),
 )
 
-irods_prefix: tuple[str] | str = snakemake.params.get(
-    "irods_prefix", ("/odin/kdi/")
-)
+irods_prefix: tuple[str] | str = snakemake.params.get("irods_prefix", ("/odin/kdi/"))
 
 
 output_directory = os.path.realpath(os.path.dirname(snakemake.output[0]))
