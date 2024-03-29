@@ -52,7 +52,9 @@ def consider_compression(copy_func: Callable) -> None:
         if not kwargs["src"].lower().endswith("q.gz"):
             with TemporaryDirectory() as tmpdir:
                 if isinstance(kwargs["src"], str) and os.path.exists(kwargs["src"]):
-                    logging.info("No in-between copy/link/recovery is required, gzipping directly.")
+                    logging.info(
+                        "No in-between copy/link/recovery is required, gzipping directly."
+                    )
                     log_cmd: str = snakemake.log_fmt_shell(
                         stdout=False, stderr=True, append=True
                     )
@@ -189,7 +191,9 @@ def make_available(
 
     Return (None)
     """
-    logging.info(f"Making {src=} available at {dest=}")
+    logging.info(
+        f"Making {src=} available at {dest=}, knowing {cold_storage=} and {irods_prefix=}"
+    )
     if src.lower().startswith(cold_storage):
         bash_rsync(src=src, dest=dest)
     elif src.lower().startswith(irods_prefix) and on_flamingo():
@@ -245,7 +249,7 @@ def copy_or_concat(
     """
     logging.debug(
         f"Choosing whether {src=} should be "
-        f"concatenated, linked, or copied to {dest=}"
+        f"concatenated, linked, or copied to {dest=}, knowing {cold_storage=}"
     )
     src_sep: str | None = None
     src_len: int = 1
@@ -297,14 +301,14 @@ cold_storage: tuple[str] | str = snakemake.params.get(
         "/mnt/isilon",
         "/mnt/archivage",
         "/mnt/install",
-        "glustergv0",
-        "nfs01",
-        "nas01_test",
+        "/mnt/glustergv0",
+        "/mnt/nfs01",
+        "/mnt/nas01_test",
     ),
 )
 
 irods_prefix: tuple[str] | str = snakemake.params.get(
-    "irods_prefix", ("/odin/kdi/dataset/")
+    "irods_prefix", ("/odin/kdi/")
 )
 
 
