@@ -1,3 +1,9 @@
+# 2.2.5
+
+## Features:
+
+* Documentation update
+
 # 2.2.4
 
 ## Features:
