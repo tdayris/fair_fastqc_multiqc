@@ -1,3 +1,11 @@
+# 2.2.4
+
+## Features:
+
+* Documentation update
+* Use human readable functions rather than raw lookup
+* schemas update
+
 # 2.2.3
 
 ## Fix:
