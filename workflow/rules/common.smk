@@ -8,9 +8,9 @@ import snakemake.utils
 from collections import defaultdict
 from pathlib import Path
 from snakemake.common.tbdstring import TBDString
-from typing import Any, NamedTuple
+from typing import Any, Callable, NamedTuple
 
-snakemake.utils.min_version("8.1.0")
+snakemake.utils.min_version("8.2.0")
 
 
 container: "docker://snakemake/snakemake:v8.5.3"
@@ -78,75 +78,55 @@ wildcard_constraints:
     stream=r"|".join(stream_list),
 
 
-def dlookup(
-    dpath: str | None = None,
-    query: str | None = None,
-    cols: list[str] | None = None,
-    within=None,
-    default: str | int | None = None,
-) -> str:
-    value = None
+def lookup_config(
+    dpath: Callable | str,
+    default: str | bool | None = None,
+    config: dict[str, Any] = config,
+) -> str | bool | None:
+    """
+    Run lookup function with default parameters in order to search a key in configuration and return a default value
+
+    Parameters:
+    dpath       (str)               : Signature within the configuration file
+    default     (str | bool | None) : Default value to return in case of missing value
+    config      (dict[str, Any]     : Configuration file
+
+    Return
+    (str | bool | None) : The value containted in the configuration file, or provided default value
+    """
+    value: str | bool | None = default
+
     try:
-        value = lookup(dpath=dpath, query=query, cols=cols, within=within)
+        value = lookup(dpath=dpath, within=config)
     except LookupError:
         value = default
     except WorkflowError:
-        value = default
-    except KeyError:
-        value = default
-    except AttributeError:
         value = default
 
     return value
 
 
-def get_multiqc_report_input(
-    wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame = samples
-) -> dict[str, list[str]]:
+def get_single_ended_samples(samples: pandas.DataFrame = samples) -> NamedTuple:
     """
-    Return expected input files for MultiQC report, according to user-input,
-    and snakemake-wrapper requirements
+    Return the list of single ended samples, as a NameTuple usable
+    in expand/collect function
 
     Parameters:
-    wildcards (snakemake.io.Wildcards): Required for snakemake unpacking function
-    samples   (pandas.DataFrame)      : Describe sample names and related paths/genome
+    samples (pandas.DataFrame): Sample information
 
-    Return (dict[str, list[str]]):
-    Dictionnary of all input files as required by MultiQC's snakemake-wrapper
+    Return: NamedTuple of single ended samples
     """
-    results: dict[str, list[str]] = {
-        "fastqc_single_ended": collect(
-            "results/QC/report_pe/{single_ended_data.sample_id}_fastqc.zip",
-            single_ended_data=lookup(
-                query="downstream_file != downstream_file", within=samples
-            ),
-        ),
-        "fastqc_pair_ended": collect(
-            "results/QC/report_pe/{pair_ended_data.sample_id}.{stream}_fastqc.zip",
-            pair_ended_data=lookup(
-                query="downstream_file == downstream_file", within=samples
-            ),
-            stream=stream_list,
-        ),
-        "fastq_screen_single_ended": collect(
-            "tmp/fair_fastqc_multiqc/fastq_screen_single_ended/{single_ended_data.sample_id}.fastq_screen.txt",
-            single_ended_data=lookup(
-                query="downstream_file != downstream_file", within=samples
-            ),
-        ),
-        "fastq_screen_pair_ended": collect(
-            "tmp/fair_fastqc_multiqc/fastq_screen_pair_ended/{pair_ended_data.sample_id}.{stream}.fastq_screen.txt",
-            pair_ended_data=lookup(
-                query="downstream_file == downstream_file", within=samples
-            ),
-            stream=stream_list,
-        ),
-        "config": "tmp/fair_fastqc_multiqc/multiqc_config.yaml",
-        "logo": "tmp/fair_fastqc_multiqc/bigr_logo.png",
-    }
+    return lookup(query="downstream_file != downstream_file", within=samples)
 
-    if not config.get("params", {}).get("fastq_screen", {}).get("fastq_screen_config"):
-        del results["fastq_screen_single_ended"]
-        del results["fastq_screen_pair_ended"]
 
-    return results
+def get_pair_ended_samples(samples: pandas.DataFrame = samples) -> NamedTuple:
+    """
+    Return the list of pair ended samples, as a NameTuple usable
+    in expand/collect function
+
+    Parameters:
+    samples (pandas.DataFrame): Sample information
+
+    Return: NamedTuple of pair ended samples
+    """
+    return lookup(query="downstream_file == downstream_file", within=samples)

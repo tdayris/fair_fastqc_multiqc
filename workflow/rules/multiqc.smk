@@ -12,8 +12,8 @@ rule fair_fastqc_multiqc_bigr_logo:
     benchmark:
         "benchmark/fair_fastqc_multiqc/bigr_logo.tsv"
     params:
-        extra=dlookup(
-            dpath="params/fair_fastqc_multiqc/wget", within=config, default="--verbose"
+        extra=lookup_config(
+            dpath="params/fair_fastqc_multiqc/wget", default="--verbose"
         ),
         address="https://raw.githubusercontent.com/tdayris/fair_fastqc_multiqc/main/images/bigr_logo.png",
     conda:
@@ -38,16 +38,16 @@ rule fair_fastqc_multiqc_multiqc_config:
     benchmark:
         "benchmark/fair_fastqc_multiqc/multiqc_config.tsv"
     params:
-        extra=lambda wildcards, input: dlookup(
+        extra=lambda wildcards, input: lookup_config(
             dpath="params/fair_fastqc_multiqc/multiqc/config",
-            within=config,
             default={
                 "title": "Raw quality control report",
                 "subtitle": "Produced on raw fastq recieved from sequencer",
                 "intro_text": (
-                    "This pipeline building this report has "
-                    "no information about sequencing protocol, "
-                    "wet-lab experimental design, nor sample organisms."
+                    "This pipeline building this report analyses all samples "
+                    "according to the same parameters, not taking the "
+                    "wet-lab experimental design, nor sample organisms "
+                    "into account."
                 ),
                 "report_comment": (
                     "This report was generated using: "
@@ -95,7 +95,38 @@ rule fair_fastqc_multiqc_multiqc_config:
 
 rule fair_fastqc_multiqc_multiqc_report:
     input:
-        unpack(get_multiqc_report_input),
+        fastqc_single_ended=collect(
+            "results/QC/report_pe/{single_ended_data.sample_id}_fastqc.zip",
+            single_ended_data=get_single_ended_samples(),
+        ),
+        fastqc_pair_ended=collect(
+            "results/QC/report_pe/{pair_ended_data.sample_id}.{stream}_fastqc.zip",
+            pair_ended_data=get_pair_ended_samples(),
+            stream=stream_list,
+        ),
+        fastq_screen_single_ended=branch(
+            lookup_config(
+                dpath="params/fair_fastqc_multiqc/fastq_screen/fastq_screen_config"
+            ),
+            then=collect(
+                "tmp/fair_fastqc_multiqc/fastq_screen_single_ended/{single_ended_data.sample_id}.fastq_screen.txt",
+                single_ended_data=get_single_ended_samples(),
+            ),
+            otherwise=[],
+        ),
+        fastq_screen_pair_ended=branch(
+            lookup_config(
+                dpath="params/fair_fastqc_multiqc/fastq_screen/fastq_screen_config"
+            ),
+            then=collect(
+                "tmp/fair_fastqc_multiqc/fastq_screen_pair_ended/{pair_ended_data.sample_id}.{stream}.fastq_screen.txt",
+                pair_ended_data=get_pair_ended_samples(),
+                stream=stream_list,
+            ),
+            otherwise=[],
+        ),
+        config="tmp/fair_fastqc_multiqc/multiqc_config.yaml",
+        logo="tmp/fair_fastqc_multiqc/bigr_logo.png",
     output:
         report(
             "results/QC/MultiQC_FastQC.html",
@@ -116,12 +147,12 @@ rule fair_fastqc_multiqc_multiqc_report:
         * max(1, int(input.size_mb / 1024)),
         tmpdir=tmp,
     params:
-        extra=dlookup(
-            dpath="params/fair_fastqc_multiqc/multiqc/extra", within=config, default=""
+        extra=lookup_config(
+            dpath="params/fair_fastqc_multiqc/multiqc/extra",
+            default="--verbose --no-megaqc-upload --no-ansi --force",
         ),
-        use_input_files_only=dlookup(
+        use_input_files_only=lookup_config(
             dpath="params/fair_fastqc_multiqc/multiqc/use_input_file_only",
-            within=config,
             default=True,
         ),
     log:
