@@ -14,8 +14,26 @@ upstream_file:
 
 downstream_file:
   type: string
-  description: Path to downstream fastq file
+  description: Path to downstream fastq file. Leave empty for single ended library.
+
+species:
+  type: string
+  description: Sample organism name (homo_sapiens, mus_musculus, ...)
+  default: "homo_sapiens"
+
+build:
+  type: string
+  description: Ensembl build name
+  default: "GRCh38"
+
+release:
+  type: string
+  description: Ensembl release version
+  default: "105"
 
 required:
   - sample_id
   - upstream_file
+  - species
+  - build
+  - release

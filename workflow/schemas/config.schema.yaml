@@ -14,34 +14,42 @@ params:
   description: Parameters for each (sub) pipelines
   fair_fastqc_multiqc:
     type: object
-    description: Optional parameters for FastQC, MultiQC, FastQScreen, and NGSDerive
+    description: Optional parameters for this pipeline
+
     fastqc:
       type: string
       description: Optional parameters for FastQC
+      default: ""
+      
     multiqc:
-      type: string
-      description: Optional parameters for MultiQC
+      type: object
+      description: Optional parameters for MultiQC's Snakemake wrapper
+      extra:
+        type: string
+        description: Optional parameters for MultiQC itself
+        default: "--verbose --no-megaqc-upload --no-ansi --force"
+      use_input_files_only:
+        type: boolean
+        description: Use the exact list of input files, or search in directories
+        default: true
+
     fastq_screen:
       type: object
       subset:
         type: integer
         description: Number of reads used to build statistics
+        default: 10000
       fastq_screen_config:
         type: string
         description: Path to fastq screen configuration
+        default: ""
       aligner:
         type: string
         description: Aligner used to index references
         pattern: "^bowtie2?"
-    ngsderive:
-      type: object
-      description: backward analyse your fastq
-      instrument:
-        type: string
-        description: estimate sequencing instrument
-      encoding:
-        type: string
-        description: estimate read encoding
-      readlen:
-        type: string
-        description: estimate original readlen
+        default: "bowtie2"
+
+    wget:
+      type: string
+      description: Download BiGR logo
+      default: "--verbose"
