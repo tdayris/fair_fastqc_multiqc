@@ -1,9 +1,14 @@
+# 2.2.6
+
+## Features
+
+* Snakemake wrappers up to 3.7.0
+
 # 2.2.5
 
 ## Features:
 
 * Documentation update
-* Snakemake wrappers up to 3.7.0
 
 # 2.2.4
 
