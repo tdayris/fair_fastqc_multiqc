@@ -68,7 +68,7 @@ snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 report: "../report/workflows.rst"
 
 
-snakemake_wrappers_prefix: str = "v3.5.2"
+snakemake_wrappers_prefix: str = "v3.7.0"
 stream_list: list[str] = ["1", "2"]
 tmp: str = f"{os.getcwd()}/tmp"
 
