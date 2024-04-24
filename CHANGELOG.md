@@ -1,3 +1,9 @@
+# 2.2.7
+
+## Fix
+
+* Fix R2 copy issue
+
 # 2.2.6
 
 ## Features
