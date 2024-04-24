@@ -39,7 +39,7 @@ use rule fair_fastqc_multiqc_link_or_concat_single_ended_input as fair_fastqc_mu
         "benchmark/fair_fastqc_multiqc/link_or_concat_pair_ended_input/{sample}.{stream}.tsv"
     params:
         in_files=branch(
-            "{stream} == 1",
+            evaluate("{stream} == '1'"),
             then=collect(
                 "{sample.upstream_file}",
                 sample=lookup(

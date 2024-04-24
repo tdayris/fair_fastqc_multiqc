@@ -32,7 +32,7 @@ dag.png:
 
 report.txt: pipeline.txt
 	mamba activate test-snakemake-wrappers && \
-	snakemake -s ../workflow/Snakefile \
+	snakemake -s ../workflow/Snakefile --profile local \
 		--report report.zip 2>&1 | tee report.txt
 
 
@@ -40,7 +40,7 @@ pipeline.txt: linter.txt
 	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile \
 		--cores 2 \
-		--software-deployment-method apptainer conda \
+		--profile local \
 		2>&1 | tee pipeline.txt
 
 
