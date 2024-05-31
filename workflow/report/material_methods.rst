@@ -13,12 +13,12 @@ whole pipeline was powered by Snakemake_ [#snakemakepaper]_.
 .. [#snakemakepaper] Köster, Johannes, and Sven Rahmann. "Snakemake—a scalable bioinformatics workflow engine." Bioinformatics 28.19 (2012): 2520-2522.
 
 
-.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/multiqc.html
+.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v3.10.2/wrappers/multiqc.html
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _Github: https://github.com/tdayris/fair_fastqc_multiqc
 .. _`Snakemake workflow`: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_fastqc_multiqc
-.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/fastqc.html
-.. _FastqScreen: https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/fastq_screen.html
+.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v3.10.2/wrappers/fastqc.html
+.. _FastqScreen: https://snakemake-wrappers.readthedocs.io/en/v3.10.2/wrappers/fastq_screen.html
 
 
 :Authors:

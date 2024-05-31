@@ -24,20 +24,17 @@ all: report.txt
 
 
 dag.png:
-	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile \
 		--rulegraph --forceall | dot -Tpng > dag.png && \
 	cp --verbose dag.png ../dag.png
 
 
 report.txt: pipeline.txt
-	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile --profile local \
 		--report report.zip 2>&1 | tee report.txt
 
 
 pipeline.txt: linter.txt
-	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile \
 		--cores 2 \
 		--profile local \
@@ -45,17 +42,14 @@ pipeline.txt: linter.txt
 
 
 linter.txt: format.txt black.txt
-	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile \
 		--lint 2>&1 | tee linter.txt
 
 
 format.txt:
-	mamba activate test-snakemake-wrappers && \
 	snakefmt $(snakefiles) 2>&1 | tee format.txt
 
 black.txt:
-	mamba activate test-snakemake-wrappers && \
 	black $(python_scripts) 2>&1 | tee black.txt
 
 

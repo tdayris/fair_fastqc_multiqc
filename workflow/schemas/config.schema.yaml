@@ -12,44 +12,32 @@ samples:
 params:
   type: object
   description: Parameters for each (sub) pipelines
-  fair_fastqc_multiqc:
+
+  fair_rnaseq_salmon_quant_multiqc_config:
     type: object
-    description: Optional parameters for this pipeline
+    description: Mapping object of all MultiQC sub-caregories
 
-    fastqc:
-      type: string
-      description: Optional parameters for FastQC
-      default: ""
-      
-    multiqc:
-      type: object
-      description: Optional parameters for MultiQC's Snakemake wrapper
-      extra:
-        type: string
-        description: Optional parameters for MultiQC itself
-        default: "--verbose --no-megaqc-upload --no-ansi --force"
-      use_input_files_only:
-        type: boolean
-        description: Use the exact list of input files, or search in directories
-        default: true
+  fair_fastqc_multiqc_fastq_screen:
+    type: object
+    description: Optional parameters for FastQ Screen
+    subset:
+      type: integer
+      description: Number of reads used to assign genomes
 
-    fastq_screen:
-      type: object
-      subset:
-        type: integer
-        description: Number of reads used to build statistics
-        default: 10000
-      fastq_screen_config:
-        type: string
-        description: Path to fastq screen configuration
-        default: ""
-      aligner:
-        type: string
-        description: Aligner used to index references
-        pattern: "^bowtie2?"
-        default: "bowtie2"
+    aligner:
+      type: str
+      description: Aligner used by FastQ Screen
+      pattern: "^bowtie2?"
 
-    wget:
-      type: string
-      description: Download BiGR logo
-      default: "--verbose"
+    config:
+      type: str
+      description: Path to configuration file
+
+  fair_fastqc_multiqc_fastqc:
+    type: str
+    description: Optional parameters for fastqc
+
+  fair_fastqc_multiqc_multiqc:
+    type: str
+    description: Optional parameters for multiqc
+ 

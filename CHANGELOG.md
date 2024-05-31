@@ -1,3 +1,11 @@
+# 2.2.8
+
+## Features
+
+* Update snakemake wrappers to 3.10.2
+* Report update
+* More readable tmp and logs
+
 # 2.2.7
 
 ## Fix

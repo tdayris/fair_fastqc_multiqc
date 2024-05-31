@@ -1,7 +1,7 @@
 rule fair_fastqc_multiqc_link_or_concat_single_ended_input:
     output:
         temp(
-            "tmp/fair_fastqc_multiqc/link_or_concat_single_ended_input/{sample}.fastq.gz"
+            "tmp/fair_fastqc_multiqc_link_or_concat_single_ended_input/{sample}.fastq.gz"
         ),
     threads: 1
     resources:
@@ -11,9 +11,9 @@ rule fair_fastqc_multiqc_link_or_concat_single_ended_input:
         * 15,
         tmpdir=tmp,
     log:
-        "logs/fair_fastqc_multiqc/link_or_concat_single_ended_input/{sample}.log",
+        "logs/fair_fastqc_multiqc_link_or_concat_single_ended_input/{sample}.log",
     benchmark:
-        "benchmark/fair_fastqc_multiqc/link_or_concat_single_ended_input/{sample}.tsv"
+        "benchmark/fair_fastqc_multiqc_link_or_concat_single_ended_input/{sample}.tsv"
     params:
         in_files=collect(
             "{sample.upstream_file}",
@@ -31,12 +31,12 @@ rule fair_fastqc_multiqc_link_or_concat_single_ended_input:
 use rule fair_fastqc_multiqc_link_or_concat_single_ended_input as fair_fastqc_multiqc_link_or_concat_pair_ended_input with:
     output:
         temp(
-            "tmp/fair_fastqc_multiqc/link_or_concat_pair_ended_input/{sample}.{stream}.fastq.gz"
+            "tmp/fair_fastqc_multiqc_link_or_concat_pair_ended_input/{sample}.{stream}.fastq.gz"
         ),
     log:
-        "logs/fair_fastqc_multiqc/link_or_concat_pair_ended_input/{sample}.{stream}.log",
+        "logs/fair_fastqc_multiqc_link_or_concat_pair_ended_input/{sample}.{stream}.log",
     benchmark:
-        "benchmark/fair_fastqc_multiqc/link_or_concat_pair_ended_input/{sample}.{stream}.tsv"
+        "benchmark/fair_fastqc_multiqc_link_or_concat_pair_ended_input/{sample}.{stream}.tsv"
     params:
         in_files=branch(
             evaluate("{stream} == '1'"),

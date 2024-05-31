@@ -1,6 +1,6 @@
 rule fair_fastqc_multiqc_fastqc_pair_ended:
     input:
-        sample="tmp/fair_fastqc_multiqc/link_or_concat_pair_ended_input/{sample}.{stream}.fastq.gz",
+        sample="tmp/fair_fastqc_multiqc_link_or_concat_pair_ended_input/{sample}.{stream}.fastq.gz",
     output:
         html=report(
             "results/QC/report_pe/{sample}.{stream}.html",
@@ -22,18 +22,18 @@ rule fair_fastqc_multiqc_fastqc_pair_ended:
         * max(1, int(input.size_mb / 1024)),
         tmpdir=tmp,
     log:
-        "logs/fair_fastqc_multiqc/fastqc_pair_ended/{sample}.{stream}.log",
+        "logs/fair_fastqc_multiqc_fastqc_pair_ended/{sample}.{stream}.log",
     benchmark:
-        "benchmark/fair_fastqc_multiqc/fastqc_pair_ended/{sample}.{stream}.tsv"
+        "benchmark/fair_fastqc_multiqc_fastqc_pair_ended/{sample}.{stream}.tsv"
     params:
-        extra=lookup_config(dpath="params/fair_fastqc_multiqc/fastqc", default=""),
+        extra=lookup_config(dpath="params/fair_fastqc_multiqc_fastqc", default=""),
     wrapper:
         f"{snakemake_wrappers_prefix}/bio/fastqc"
 
 
 use rule fair_fastqc_multiqc_fastqc_pair_ended as fair_fastqc_multiqc_fastqc_single_ended with:
     input:
-        sample="tmp/fair_fastqc_multiqc/link_or_concat_single_ended_input/{sample}.fastq.gz",
+        sample="tmp/fair_fastqc_multiqc_link_or_concat_single_ended_input/{sample}.fastq.gz",
     output:
         html=report(
             "results/QC/report_pe/{sample}.html",
@@ -48,6 +48,6 @@ use rule fair_fastqc_multiqc_fastqc_pair_ended as fair_fastqc_multiqc_fastqc_sin
         ),
         zip="results/QC/report_pe/{sample}_fastqc.zip",
     log:
-        "logs/fair_fastqc_multiqc/fastqc_single_ended/{sample}.log",
+        "logs/fair_fastqc_multiqc_fastqc_single_ended/{sample}.log",
     benchmark:
-        "benchmark/fair_fastqc_multiqc/fastqc_single_ended/{sample}.tsv"
+        "benchmark/fair_fastqc_multiqc_fastqc_single_ended/{sample}.tsv"
