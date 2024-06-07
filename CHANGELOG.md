@@ -1,3 +1,10 @@
+# 2.3.0
+
+## Features
+
+* Snakemake updates now follow the updates from fair_genome_indexer
+* Improt functions and globals from fair_genome_indexer
+
 # 2.2.8
 
 ## Features
