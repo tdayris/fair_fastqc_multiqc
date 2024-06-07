@@ -104,7 +104,7 @@ rule fair_fastqc_multiqc_multiqc_report:
         fastqc_pair_ended=collect(
             "results/QC/report_pe/{pair_ended_data.sample_id}.{stream}_fastqc.zip",
             pair_ended_data=get_pair_ended_samples(),
-            stream=stream_list,
+            stream=stream_tuple,
         ),
         fastq_screen_single_ended=branch(
             lookup_config(
@@ -123,7 +123,7 @@ rule fair_fastqc_multiqc_multiqc_report:
             then=collect(
                 "tmp/fair_fastqc_multiqc_fastq_screen_pair_ended/{pair_ended_data.sample_id}.{stream}.fastq_screen.txt",
                 pair_ended_data=get_pair_ended_samples(),
-                stream=stream_list,
+                stream=stream_tuple,
             ),
             otherwise=[],
         ),

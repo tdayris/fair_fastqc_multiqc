@@ -17,8 +17,8 @@ snakefiles := \
 
 
 python_scripts := \
-	"../workflow/scripts/link_or_concat.py"
-	"../workflow/fair_fastqc_multiqc_multiqc_config.py"
+	"../workflow/scripts/link_or_concat.py" \
+	"../workflow/scripts/fair_fastqc_multiqc_multiqc_config.py"
 
 .PHONY: all
 all: report.txt
