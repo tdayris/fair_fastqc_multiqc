@@ -1,3 +1,9 @@
+# 2.3.3
+
+## Feature:
+
+* drop dependency
+
 # 2.3.2
 
 ## Fix
