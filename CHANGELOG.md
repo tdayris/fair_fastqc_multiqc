@@ -1,3 +1,9 @@
+# 2.3.1
+
+## Features
+
+* Documentation udpate
+
 # 2.3.0
 
 ## Features
