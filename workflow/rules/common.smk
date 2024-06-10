@@ -182,7 +182,14 @@ def lookup_genomes(
             wildcards=wildcards
         )
     )
-    return getattr(lookup(query=query, within=genomes), key, default)
+
+    query_result: str | float = getattr(
+        lookup(query=query, within=genomes), key, default
+    )
+    if query_result != query_result:
+        # Then the result of the query is nan
+        return default
+    return query_result
 
 
 def get_dna_fasta(
