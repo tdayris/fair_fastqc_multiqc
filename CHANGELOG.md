@@ -1,3 +1,9 @@
+# 2.3.2
+
+## Fix
+
+* Blacklist fix in fair_genome_indexer
+
 # 2.3.1
 
 ## Features
