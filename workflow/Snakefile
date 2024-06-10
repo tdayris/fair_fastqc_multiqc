@@ -1,7 +1,3 @@
-configfile: "config/config.yaml"
-
-
-include: "rules/fair_genome_indexer.smk"
 include: "rules/common.smk"
 include: "rules/fastq_screen.smk"
 include: "rules/fastqc.smk"
