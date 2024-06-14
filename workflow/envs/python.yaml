@@ -8,3 +8,6 @@ dependencies:
   - rsync=3.2.7
   - python-irodsclient=2.0.0
   - bash=5.2.21
+  - gzip=1.13
+  - bzip2=1.0.8
+  - pbgzip=2016.08.04
