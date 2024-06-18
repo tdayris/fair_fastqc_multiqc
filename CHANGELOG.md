@@ -1,3 +1,9 @@
+# 2.3.4
+
+## Feature:
+
+* drop compresison dependencies
+
 # 2.3.3
 
 ## Feature:
