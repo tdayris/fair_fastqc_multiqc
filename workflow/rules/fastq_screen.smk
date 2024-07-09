@@ -19,15 +19,15 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
         "benchmark/fair_fastqc_multiqc_fastq_screen_single_ended/{sample}.tsv"
     params:
         subset=lookup_config(
-            dpath="params/fair_fastqc_multiqc_fastq_screen/subset",
+            dpath="params/fair_fastqc_multiqc_fastq_screen_subset",
             default=10000,
         ),
         aligner=lookup_config(
-            dpath="params/fair_fastqc_multiqc_fastq_screen/aligner",
+            dpath="params/fair_fastqc_multiqc_fastq_screen_aligner",
             default="bowtie2",
         ),
         fastq_screen_config=lookup_config(
-            dpath="params/fair_fastqc_multiqc_fastq_screen/fastq_screen_config",
+            dpath="params/fair_fastqc_multiqc_fastq_screen_config",
         ),
     wrapper:
         f"{snakemake_wrappers_prefix}/bio/fastq_screen"
