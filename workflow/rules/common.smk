@@ -365,6 +365,7 @@ def get_pair_ended_samples(samples: pandas.DataFrame = samples) -> NamedTuple:
     """
     return lookup(query="downstream_file == downstream_file", within=samples)
 
+
 def use_fqscreen(config: dict[str, Any] = config) -> bool:
     """
     Return true if a Fastq-Screen configuration file is provided
