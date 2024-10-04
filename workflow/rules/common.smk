@@ -172,20 +172,16 @@ def lookup_genomes(
     wildcards: snakemake.io.Wildcards,
     key: str,
     default: str | list[str] | None = None,
+    query: str = "species == '{wildcards.species}' & build == '{wildcards.build}' & release == '{wildcards.release}'",
 ) -> str:
     """
     Run lookup function with default parameters in order to search user-provided sequence/annotation files
     """
-    query: str = (
-        "species == '{wildcards.species}' & build == '{wildcards.build}' & release == '{wildcards.release}'".format(
-            wildcards=wildcards
-        )
-    )
-
+    query: str = query.format(wildcards=wildcards)
     query_result: str | float = getattr(
         lookup(query=query, within=genomes), key, default
     )
-    if query_result != query_result:
+    if query_result != None:
         # Then the result of the query is nan
         return default
     return query_result
