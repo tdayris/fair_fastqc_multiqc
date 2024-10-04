@@ -172,7 +172,6 @@ def lookup_genomes(
     wildcards: snakemake.io.Wildcards,
     key: str,
     default: str | list[str] | None = None,
-    genomes: pandas.DataFrame = genomes,
 ) -> str:
     """
     Run lookup function with default parameters in order to search user-provided sequence/annotation files
@@ -192,17 +191,23 @@ def lookup_genomes(
     return query_result
 
 
+def genome_property(wildcards: snakemake.io.Wildcards) -> str:
+    """
+    Format genome property from wildcards
+    """
+    return "{wildcards.species}.{wildcards.build}.{wildcards.release}".format(
+        wildcards=wildcards
+    )
+
+
 def get_dna_fasta(
     wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
 ) -> str:
     """
     Return path to the final DNA fasta sequences
     """
-    default: str = (
-        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna.fasta".format(
-            wildcards=wildcards
-        )
-    )
+    gp: str = genome_property(wildcards)
+    default: str = f"reference/sequences/{gp}/{gp}.dna.fasta"
     return lookup_genomes(wildcards, key="dna_fasta", default=default, genomes=genomes)
 
 
@@ -212,11 +217,8 @@ def get_cdna_fasta(
     """
     Return path to the final cDNA fasta sequences
     """
-    default: str = (
-        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna.fasta".format(
-            wildcards=wildcards
-        )
-    )
+    gp: str = genome_property(wildcards)
+    default: str = f"reference/sequences/{gp}/{gp}.cdna.fasta"
     return lookup_genomes(wildcards, key="cdna_fasta", default=default, genomes=genomes)
 
 
@@ -226,11 +228,8 @@ def get_transcripts_fasta(
     """
     Return path to the final cDNA transcripts fasta sequences
     """
-    default: str = (
-        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts.fasta".format(
-            wildcards=wildcards
-        )
-    )
+    gp: str = genome_property(wildcards)
+    default: str = f"reference/sequences/{gp}/{gp}.transcripts.fasta"
     return lookup_genomes(
         wildcards, key="transcripts_fasta", default=default, genomes=genomes
     )
@@ -258,11 +257,8 @@ def get_dna_fai(
     """
     Return path to the final DNA fasta sequences index
     """
-    default: str = (
-        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna.fasta.fai".format(
-            wildcards=wildcards
-        )
-    )
+    gp: str = genome_property(wildcards)
+    default: str = f"reference/sequences/{gp}/{gp}.dna.fasta.fai"
     return lookup_genomes(wildcards, key="dna_fai", default=default, genomes=genomes)
 
 
@@ -272,11 +268,8 @@ def get_cdna_fai(
     """
     Return path to the final cDNA fasta sequences index
     """
-    default: str = (
-        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna.fasta.fai".format(
-            wildcards=wildcards
-        )
-    )
+    gp: str = genome_property(wildcards)
+    default: str = f"reference/sequences/{gp}/{gp}.cdna.fasta.fai"
     return lookup_genomes(wildcards, key="cdna_fai", default=default, genomes=genomes)
 
 
@@ -286,11 +279,8 @@ def get_transcripts_fai(
     """
     Return path to the final cDNA transcripts fasta sequences index
     """
-    default: str = (
-        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts.fasta.fai".format(
-            wildcards=wildcards
-        )
-    )
+    gp: str = genome_property(wildcards)
+    default: str = f"reference/sequences/{gp}/{gp}.transcripts.fasta.fai"
     return lookup_genomes(
         wildcards, key="transcripts_fai", default=default, genomes=genomes
     )
@@ -318,11 +308,8 @@ def get_gtf(
     """
     Return path to the final genome annotation (GTF formatted)
     """
-    default: str = (
-        "reference/annotation/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.gtf".format(
-            wildcards=wildcards
-        )
-    )
+    gp: str = genome_property(wildcards)
+    default: str = f"reference/annotation/{gp}/{gp}.gtf"
     return lookup_genomes(wildcards, key="gtf", default=default, genomes=genomes)
 
 
@@ -332,11 +319,8 @@ def get_gff(
     """
     Return path to the final genome annotation (GFF3 formatted)
     """
-    default: str = (
-        "reference/annotation/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.gff3".format(
-            wildcards=wildcards
-        )
-    )
+    gp: str = genome_property(wildcards)
+    default: str = f"reference/annotation/{gp}/{gp}.gff3"
     return lookup_genomes(wildcards, key="gff3", default=default, genomes=genomes)
 
 
