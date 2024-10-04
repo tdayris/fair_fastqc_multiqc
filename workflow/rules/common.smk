@@ -11,7 +11,7 @@ from typing import Any, Callable, NamedTuple
 snakemake_min_version: str = "8.13.0"
 snakemake.utils.min_version(snakemake_min_version)
 
-snakemake_docker_image: str = "docker://snakemake/snakemake:v8.13.0"
+snakemake_docker_image: str = "docker://snakemake/snakemake:v8.20.5"
 
 
 container: snakemake_docker_image
@@ -127,7 +127,7 @@ snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 report: "../report/workflows.rst"
 
 
-snakemake_wrappers_prefix: str = "v3.12.0"
+snakemake_wrappers_prefix: str = "v4.5.0"
 release_tuple: tuple[str] = tuple(set(genomes.release.tolist()))
 build_tuple: tuple[str] = tuple(set(genomes.build.tolist()))
 species_tuple: tuple[str] = tuple(set(genomes.species.tolist()))
@@ -364,3 +364,24 @@ def get_pair_ended_samples(samples: pandas.DataFrame = samples) -> NamedTuple:
     Return: NamedTuple of pair ended samples
     """
     return lookup(query="downstream_file == downstream_file", within=samples)
+
+def use_fqscreen(config: dict[str, Any] = config) -> bool:
+    """
+    Return true if a Fastq-Screen configuration file is provided
+    by user, and if the file exists.
+    """
+    fqscreen_config = lookup_config(
+        dpath="params/fair_fastqc_multiqc_fastq_screen_config",
+    )
+
+    fqscreen: bool = False
+    try:
+        fqscreen = os.path.exists(fqscreen_config)
+        if not fqscreen:
+            raise FileNotFoundError(f"Could not find {fqscreen_config=}")
+    except TypeError:
+        # Handles all kind of non-str values provided in parameters
+        # in case user provides `False`, `None`, etc.
+        fqscreen = False
+
+    return fqscreen

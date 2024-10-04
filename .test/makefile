@@ -13,7 +13,7 @@ snakefiles := \
 	"../workflow/rules/fastqc.smk" \
 	"../workflow/rules/fastq_screen.smk" \
 	"../workflow/rules/multiqc.smk" \
-	"../workflow/rules/prepare_input.smk" \
+	"../workflow/rules/prepare_input.smk" 
 
 
 python_scripts := \
@@ -22,6 +22,7 @@ python_scripts := \
 
 .PHONY: all
 all: report.txt
+	echo "Process Over"
 
 
 dag.png:
@@ -37,8 +38,18 @@ report.txt: pipeline.txt
 
 pipeline.txt: linter.txt
 	snakemake -s ../workflow/Snakefile \
-		--cores 2 \
-		--profile local \
+		--cores 7 \
+        --restart-times 0 \
+        --max-jobs-per-second 10 \
+        --max-status-checks-per-second 1 \
+        --local-cores 4 \
+        --rerun-incomplete \
+        --keep-going \
+        --printshellcmds \
+        --shadow-prefix "tmp" \
+        --rerun-triggers "mtime" \
+        --benchmark-extended \
+        --software-deployment-method apptainer conda \
 		2>&1 | tee pipeline.txt
 
 
@@ -76,3 +87,4 @@ clean:
 		   .cache \
 		   .java \
 		   .snakemake
+

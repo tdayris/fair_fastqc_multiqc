@@ -107,9 +107,7 @@ rule fair_fastqc_multiqc_multiqc_report:
             stream=stream_tuple,
         ),
         fastq_screen_single_ended=branch(
-            lookup_config(
-                dpath="params/fair_fastqc_multiqc_fastq_screen/fastq_screen_config"
-            ),
+            condition=use_fqscreen,
             then=collect(
                 "tmp/fair_fastqc_multiqc/fastq_screen_single_ended/{single_ended_data.sample_id}.fastq_screen.txt",
                 single_ended_data=get_single_ended_samples(),
@@ -117,9 +115,7 @@ rule fair_fastqc_multiqc_multiqc_report:
             otherwise=[],
         ),
         fastq_screen_pair_ended=branch(
-            lookup_config(
-                dpath="params/fair_fastqc_multiqc_fastq_screen/fastq_screen_config"
-            ),
+            condition=use_fqscreen,
             then=collect(
                 "tmp/fair_fastqc_multiqc_fastq_screen_pair_ended/{pair_ended_data.sample_id}.{stream}.fastq_screen.txt",
                 pair_ended_data=get_pair_ended_samples(),
