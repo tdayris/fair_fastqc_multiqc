@@ -1,3 +1,19 @@
+# 2.4.0
+
+## Features:
+
+* fastqinfo used to validate and gather quality metrics over fastq files and maximum theoretical coverage.
+* Seqkit used to gather quality metrics over fastq files
+* fastq_utils used to gather quality metrics over fastq files
+
+## Fix:
+
+* Input file concatenation edge case
+
+## Documentation:
+
+* Update for the configuration section
+
 # 2.3.6
 
 ## Features:
@@ -147,7 +163,7 @@
 
 * Removed slurm partition function
 * Job reservation based on input file size
-* tempfiles, logs and benchmarks paths reorganized: 
+* tempfiles, logs and benchmarks paths reorganized:
     * `tmp/fair_fastqc_multiqc/{rule_name}/{wildcards}.{extension}`
     * `log/fair_fastqc_multiqc/{rule_name}/{wildcards}.log`
     * `benchmark/fair_fastqc_multiqc/{rule_name}/{wildcards}.tsv`
