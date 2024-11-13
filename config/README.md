@@ -15,9 +15,8 @@ samples: config/samples.csv
 
 # Optional parameters
 params:
-    fair_fastqc_multiqc:
-        # Optional parameters for multiqc
-        multiqc: --module fastqc --zip-data-dir --verbose --no-megaqc-upload --no-ansi --force
+  # Path to configuration file
+  fair_fastqc_multiqc_fastq_screen_config: "/mnt/beegfs/database/bioinfo/Index_DB/Fastq_Screen/0.14.0/fastq_screen.conf"
 ```
 
 A complete list of accepted keys is available [in schemas](https://github.com/tdayris/fair_fastqc_multiqc/blob/main/workflow/schemas/config.schema.yaml),

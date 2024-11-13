@@ -8,12 +8,16 @@ MAKEFLAGS += --no-builtin-rules
 
 # List of snakefiles to lint
 snakefiles := \
-	"../workflow/Snakefile" \
 	"../workflow/rules/common.smk" \
-	"../workflow/rules/fastqc.smk" \
+	"../workflow/rules/fair_genome_indexer.smk" \
+	"../workflow/rules/fastq_info.smk" \
 	"../workflow/rules/fastq_screen.smk" \
+	"../workflow/rules/fastq_utils.smk" \
+	"../workflow/rules/fastqc.smk" \
 	"../workflow/rules/multiqc.smk" \
-	"../workflow/rules/prepare_input.smk" 
+	"../workflow/rules/prepare_input.smk" \
+	"../workflow/rules/seqkit.smk" \
+	"../workflow/Snakefile" \
 
 
 python_scripts := \
