@@ -173,6 +173,7 @@ def lookup_genomes(
     key: str,
     default: str | list[str] | None = None,
     query: str = "species == '{wildcards.species}' & build == '{wildcards.build}' & release == '{wildcards.release}'",
+    genomes: pandas.DataFrame = genomes,
 ) -> str:
     """
     Run lookup function with default parameters in order to search user-provided sequence/annotation files
@@ -181,7 +182,7 @@ def lookup_genomes(
     query_result: str | float = getattr(
         lookup(query=query, within=genomes), key, default
     )
-    if query_result != None:
+    if (query_result != None) or (query_result is None):
         # Then the result of the query is nan
         return default
     return query_result

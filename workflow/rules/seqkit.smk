@@ -13,7 +13,6 @@ rule fair_fastqc_multiqc_seqkit_stats_pair_ended:
             subcategory="Raw",
             labels={
                 "report": "txt",
-                "sample": "{sample}",
                 "library": "pair_ended",
             },
         ),
@@ -50,7 +49,6 @@ use rule fair_fastqc_multiqc_seqkit_stats_pair_ended as fair_fastqc_multiqc_seqk
             subcategory="Raw",
             labels={
                 "report": "txt",
-                "sample": "{sample}",
                 "library": "single_ended",
             },
         ),
