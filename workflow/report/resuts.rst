@@ -50,23 +50,45 @@ the following files are present:
 ::
 
     QC
+    ├── fastq_info
+    │   ├── YYY.pe.txt
+    │   └── YYY.se.txt
+    ├── fastqinfo
+    │   └── YYY.cdna.txt
     ├── MultiQC_FastQC_data.zip
     ├── MultiQC_FastQC.html
     ├── report_pe
     │   └── YYY.html
-    └── report_se
-        └── YYY.html
+    ├── report_se
+    │   └── YYY.html
+    ├── SeqKit.Stats.pe.tsv
+    └── SeqKit.Stats.se.tsv
 
 
 
-+---------------+---------------------+-----------------------------------------------+
-| Directory     | File Extension      | Content                                       |
-+===============+=====================+===============================================+
-| QC            | `MultiQC_data.zip`  | Zipped figures and tables                     |
-+               +---------------------+-----------------------------------------------+
-|               | `MultiQC.html`      | Complete quality report, includes all samples |
-+---------------+---------------------+-----------------------------------------------+
-| QC/report_pe  | `YYY.html`          | Sequence quality report for PE sample `YYY`   |
-+---------------+---------------------+-----------------------------------------------+
-| QC/report_se  | `YYY.html`          | Sequence quality report for SE sample `YYY`   |
-+---------------+---------------------+-----------------------------------------------+
+
++---------------+-----------------------+------------------------------------------------------+
+| Directory     | File Extension        | Content                                              |
++===============+=======================+======================================================+
+| QC            | `MultiQC_data.zip`    | Zipped figures and tables                            |
++               +-----------------------+------------------------------------------------------+
+|               | `MultiQC.html`        | Complete quality report, includes all samples        |
++               +-----------------------+------------------------------------------------------+
+|               | `SeqKit.Stats.se.tsv` | SeqKit statistics over all single ended samples      |
++               +-----------------------+------------------------------------------------------+
+|               | `SeqKit.Stats.pe.tsv` | SeqKit statistics over all pair ended samples        |
++---------------+-----------------------+------------------------------------------------------+
+| QC/fastq_info | `YYY.pe.tsv`          | Fastq format checks and QC for a pair ended sample   |
++               +-----------------------+------------------------------------------------------+
+|               | `YYY.se.tsv`          | Fastq format checks and QC for a single ended sample |
++---------------+-----------------------+------------------------------------------------------+
+| QC/fastqinfo  | `YYY.cdna.txt`        | Fastq format checks and QC relatively to cDNA        |
++               +-----------------------+------------------------------------------------------+
+|               | `YYY.dna.txt`         | Fastq format checks and QC relatively to DNA         |
++               +-----------------------+------------------------------------------------------+
+|               | `YYY.transcripts.txt` | Fastq format checks and QC relatively to transcripts |
++---------------+-----------------------+------------------------------------------------------+
+| QC/report_pe  | `YYY.html`            | Sequence quality report for PE sample `YYY`          |
++---------------+-----------------------+------------------------------------------------------+
+| QC/report_se  | `YYY.html`            | Sequence quality report for SE sample `YYY`          |
++---------------+-----------------------+------------------------------------------------------+
