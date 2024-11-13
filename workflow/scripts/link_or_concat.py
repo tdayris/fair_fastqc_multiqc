@@ -243,48 +243,64 @@ def copy_or_concat(
         f"Choosing whether {src=} should be "
         f"concatenated, linked, or copied to {dest=}, knowing {cold_storage=}"
     )
+
     src_sep: str | None = None
     src_len: int = 1
-    if "," in src:
-        src_sep = ","
-    elif ";" in src:
-        src_sep = ";"
+    match src:
+        case str():
+            if "," in src:
+                src_sep = ","
+            elif ";" in src:
+                src_sep = ";"
 
-    if src_sep:
-        logging.debug(
-            "Source file string is a list separated by "
-            f"`{src_sep}`. Splitting it into a list."
-        )
-        src: list[str] = src.split(src_sep)
-        src_len = len(src)
+            if src_sep:
+                logging.debug(
+                    "Source file string is a list separated by "
+                    f"`{src_sep=}`. Splitting it into a list."
+                )
+                src: list[str] = src.split(src_sep)
+                src_len = len(src)
+        case list():
+            src_len = len(src)
+        case _:
+            raise TypeError("Unsupported type: {type(src)=}")
 
     dest_sep: str | None = None
     dest_len: int = 1
-    if "," in dest:
-        dest_sep = ","
-    elif ";" in dest:
-        dest_sep = ";"
+    match dest:
+        case str():
+            if "," in dest:
+                dest_sep = ","
+            elif ";" in dest:
+                dest_sep = ";"
 
-    if dest_sep:
-        logging.debug(
-            "Destination file string is a list separated by "
-            f"`{src_sep}`. Splitting it into a list."
-        )
-        dest: list[str] = dest.split(dest_sep)
-        dest_len = len(dest)
+            if dest_sep:
+                logging.debug(
+                    "Destination file string is a list separated by "
+                    f"`{src_sep=}`. Splitting it into a list."
+                )
+                dest: list[str] = dest.split(dest_sep)
+                dest_len = len(dest)
+        case list():
+            dest_len = len(dest)
+        case _:
+            raise TypeError("Unsupported type {type(dest)=}")
 
     if src_len == dest_len == 1:
-        logging.info(f"Making {src} available at {dest}")
+        logging.info(f"Making {src=} available at {dest=}. It's a one-to-one copy.")
         make_available(src, dest, cold_storage, irods_prefix)
     elif src_len == dest_len:
+        logging.info("Multiple sources going to their own destinations.")
         for source, destination in zip(src, dest):
-            logging.info(f"Making {source} available at {destination}")
+            logging.info(
+                f"Making {source=} available at {destination=}. It's a ont-to-one copy."
+            )
             make_available(source, destination, cold_storage, irods_prefix)
     elif (src_len > 1) and (dest_len == 1):
-        logging.info(f"Concatenating each {src} in {dest}")
+        logging.info(f"Concatenating each {src=} in {dest=}.")
         copy_then_concat(dest, cold_storage, irods_prefix, *src)
     else:
-        raise ValueError("Could not determinate how to make files " "available.")
+        raise ValueError("Could not determinate how to make files available.")
 
 
 cold_storage: tuple[str] | str = snakemake.params.get(
@@ -310,11 +326,15 @@ sources = snakemake.params.get("in_files", snakemake.input)
 if isinstance(sources, list) and len(sources) == 1:
     logging.debug(f"{sources=} is a list of one element, casting it as a string")
     sources = sources[0]
+else:
+    logging.debug(f"{sources=} is a list of multiple elements.")
 
 destinations = snakemake.output
 if isinstance(destinations, list) and len(destinations) == 1:
     logging.debug(f"{destinations=} is a list of one element, casting it as a string")
     destinations = destinations[0]
+else:
+    logging.debug(f"{destinations=} is a list of multiple elements.")
 
 copy_or_concat(
     dest=destinations, src=sources, cold_storage=cold_storage, irods_prefix=irods_prefix
