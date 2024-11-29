@@ -243,6 +243,8 @@ def copy_or_concat(
         f"Choosing whether {src=} should be "
         f"concatenated, linked, or copied to {dest=}, knowing {cold_storage=}"
     )
+    if not os.path.exists(src):
+        raise FileNotFoundError(f"Could not find source at: {src=}")
 
     src_sep: str | None = None
     src_len: int = 1

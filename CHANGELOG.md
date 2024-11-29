@@ -1,3 +1,13 @@
+# 2.4.1
+
+## Features:
+
+* More clear error on when a source file does not exists
+
+## Documentation:
+
+* Report update
+
 # 2.4.0
 
 ## Features:
