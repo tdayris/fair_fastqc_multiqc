@@ -1,3 +1,17 @@
+# 2.4.2
+
+## Features:
+
+* Easy snakemake-wrappers update
+* Easy conda envs update
+* New testing pipeline with additional format checks
+* Snakemake wrappers update to 5.3.0
+* python, bash and Snakemake environment update
+
+## Docs:
+
+* Citation cff file added
+
 # 2.4.1
 
 ## Features:

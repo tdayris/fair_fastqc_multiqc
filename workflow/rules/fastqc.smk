@@ -28,7 +28,7 @@ rule fair_fastqc_multiqc_fastqc_pair_ended:
     params:
         extra=lookup_config(dpath="params/fair_fastqc_multiqc_fastqc", default=""),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/fastqc"
+        "v5.3.0/bio/fastqc"
 
 
 use rule fair_fastqc_multiqc_fastqc_pair_ended as fair_fastqc_multiqc_fastqc_single_ended with:

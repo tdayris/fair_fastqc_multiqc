@@ -32,7 +32,7 @@ rule fair_fastqc_multiqc_seqkit_stats_pair_ended:
             default="",
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/seqkit"
+        "v5.3.0/bio/seqkit"
 
 
 use rule fair_fastqc_multiqc_seqkit_stats_pair_ended as fair_fastqc_multiqc_seqkit_stats_single_ended with:

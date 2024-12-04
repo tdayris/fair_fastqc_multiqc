@@ -1,4 +1,4 @@
-[![Snakemake](https://img.shields.io/badge/snakemake-≥8.1.0-brightgreen.svg)](https://snakemake.github.io)
+[![Snakemake](https://img.shields.io/badge/snakemake-≥8.13.0-brightgreen.svg)](https://snakemake.github.io)
 [![GitHub actions status](https://github.com/tdayris/fair_fastqc_multiqc/workflows/Tests/badge.svg)](https://github.com/tdayris/fair_fastqc_multiqc/actions?query=branch%3Amain+workflow%3ATests)
 
 Snakemake workflow used to control read qualities over fastq files with FastQC.
@@ -40,9 +40,9 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 
 | Step        | Wrapper                                                                                         |
 | ----------- | ----------------------------------------------------------------------------------------------- |
-| FastQC      | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.12.0/wrappers/fastqc.html)     |
-| FastScreen  | [fastq-screen](https://snakemake-wrappers.readthedocs.io/en/v3.12.0/wrappers/fastq_screen.html) |
-| MultiQC     | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.12.0/wrappers/multiqc.html)   |
-| SeqKit      | [seqkit-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.12.0/wrappers/seqkit.html)     |
+| FastQC      | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/fastqc.html)     |
+| FastScreen  | [fastq-screen](https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/fastq_screen.html) |
+| MultiQC     | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/multiqc.html)   |
+| SeqKit      | [seqkit-wrapper](https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/seqkit.html)     |
 | fastq_utils | [fastq_utils](https://github.com/nunofonseca/fastq_utils)                                       |
 | fastqinfo   | [fastqinfo](https://github.com/raymondkiu/fastq-info)                                           |

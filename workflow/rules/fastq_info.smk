@@ -43,12 +43,14 @@ rule fair_fastqc_multiqc_fastq_info_process_pair_ended:
         "benchmark/fair_fastqc_multiqc_fastq_info_process_pair_ended/{species}.{build}.{release}/{sample}.{datatype}.tsv"
     params:
         extra=lookup_config(
-            dpath="params/fair_fastqc_multiqc_fastq_info_process_pair_ended", default="",
+            dpath="params/fair_fastqc_multiqc_fastq_info_process_pair_ended",
+            default="",
         ),
     conda:
         "../envs/bash.yaml"
     script:
         "../scripts/fair_fastqc_multiqc_fastqinfo.py"
+
 
 use rule fair_fastqc_multiqc_fastq_info_process_pair_ended as fair_fastqc_multiqc_fastq_info_process_single_ended with:
     input:
@@ -65,6 +67,6 @@ use rule fair_fastqc_multiqc_fastq_info_process_pair_ended as fair_fastqc_multiq
         "benchmark/fair_fastqc_multiqc_fastq_info_process_single_ended/{species}.{build}.{release}/{sample}.{datatype}.tsv"
     params:
         extra=lookup_config(
-            dpath="params/fair_fastqc_multiqc_fastq_info_process_single_ended", default="",
+            dpath="params/fair_fastqc_multiqc_fastq_info_process_single_ended",
+            default="",
         ),
-        

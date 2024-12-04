@@ -34,17 +34,10 @@ mqc_config: dict[str, Any] = {
         {"Project Type": "Quality Control"},
     ],
     "software_versions": {
-        "Quality controls": {
-            "fastqc": "1.12.1",
-            "fastq_screen": "0.15.3",
-            "bowtie2": "2.5.3",
-            "bowtie1": "1.3.1",
-            "multiqc": "1.21.0",
-        },
         "Pipeline": {
             "snakemake": "8.5.3",
             "snakemake-wrappers-utils": "0.6.2",
-            "fair_fastqc_multiqc": "2.2.8",
+            "fair_fastqc_multiqc": "2.4.2",
         },
     },
     "disable_version_detection": True,
@@ -64,6 +57,4 @@ if snakemake.params["extra"]:
 
 
 with open(str(snakemake.output[0]), "w") as out_yaml_stream:
-    out_yaml_stream.write(
-        yaml.dump(snakemake.params["extra"], default_flow_style=False)
-    )
+    out_yaml_stream.write(yaml.dump(mqc_config, default_flow_style=False))

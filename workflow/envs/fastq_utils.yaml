@@ -3,4 +3,4 @@ channels:
   - conda-forge
   - nodefaults
 dependencies:
-  - fastq_utils=0.25.2
+  - fastq_utils =0.25.2

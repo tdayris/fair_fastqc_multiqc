@@ -26,7 +26,7 @@ rule fair_fastqc_multiqc_multiqc_config:
     input:
         "tmp/fair_fastqc_multiqc_bigr_logo.png",
     output:
-        temp("tmp/fair_fastqc_multiqc_multiqc_config.yaml"),
+        temp("tmp/fair_fastqc_multiqc_multiqc_config/multiqc_config.yaml"),
     threads: 1
     resources:
         mem_mb=lambda wildcards, attempt: attempt * 512,
@@ -60,7 +60,7 @@ rule fair_fastqc_multiqc_multiqc_report:
             stream=stream_tuple,
         ),
         fastq_screen_single_ended=branch(
-            condition=use_fqscreen,
+            condition=use_fqscreen() is True,
             then=collect(
                 "tmp/fair_fastqc_multiqc/fastq_screen_single_ended/{single_ended_data.sample_id}.fastq_screen.txt",
                 single_ended_data=get_single_ended_samples(),
@@ -68,7 +68,7 @@ rule fair_fastqc_multiqc_multiqc_report:
             otherwise=[],
         ),
         fastq_screen_pair_ended=branch(
-            condition=use_fqscreen,
+            condition=use_fqscreen() is True,
             then=collect(
                 "tmp/fair_fastqc_multiqc_fastq_screen_pair_ended/{pair_ended_data.sample_id}.{stream}.fastq_screen.txt",
                 pair_ended_data=get_pair_ended_samples(),
@@ -76,7 +76,7 @@ rule fair_fastqc_multiqc_multiqc_report:
             ),
             otherwise=[],
         ),
-        config="tmp/fair_fastqc_multiqc_multiqc_config.yaml",
+        config="tmp/fair_fastqc_multiqc_multiqc_config/multiqc_config.yaml",
         logo="tmp/fair_fastqc_multiqc_bigr_logo.png",
     output:
         report(
@@ -100,7 +100,7 @@ rule fair_fastqc_multiqc_multiqc_report:
     params:
         extra=lookup_config(
             dpath="params/fair_fastqc_multiqc_multiqc/extra",
-            default="--verbose --no-megaqc-upload --no-ansi --force",
+            default="--verbose --no-megaqc-upload --force --no-version-check",
         ),
         use_input_files_only=lookup_config(
             dpath="params/fair_fastqc_multiqc_multiqc/use_input_file_only",
@@ -111,4 +111,4 @@ rule fair_fastqc_multiqc_multiqc_report:
     benchmark:
         "benchmark/fair_fastqc_multiqc_multiqc_report.tsv"
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/multiqc"
+        "v5.3.0/bio/multiqc"
