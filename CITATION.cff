@@ -3,8 +3,8 @@ authors:
   given-names: Thibault
   orcid: https://orcid.org/0009-0009-2758-8450
 cff-version: 1.2.0
-date-released: '2024-12-04'
+date-released: '2024-12-11'
 message: If you use this software, please cite it as below.
-title: fair-fastqc-multiqc
-url: https://github.com/tdayris/fair_fastqc_multiqc
-version: 2.4.2
+title: fair-star-mapping
+url: https://github.com/tdayris/fair_star_mapping
+version: 2.4.3

@@ -1,3 +1,10 @@
+# 2.4.3
+
+## Features
+
+* Snakemake-wrappers update to 5.5.0
+* Tasks update
+
 # 2.4.2
 
 ## Features:
