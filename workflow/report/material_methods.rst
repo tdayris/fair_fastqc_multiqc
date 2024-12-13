@@ -6,7 +6,8 @@ were assessed with FastqScreen_ [#fastqscreenpapaer]_. Quality repord produced d
 both trimming and mapping steps have been aggregated with MultiQC_ [#multiqcpaper]_. 
 
 FastQ files formats were checked using Fastq_utils_ [#fastqutilspaper]_, additional
-qualities were gathered using Seqkit_ [#seqkitpaper]_ and Fastqinfo_ [#fastqinfopaper]_.
+qualities were gathered using Seqkit_ [#seqkitpaper]_, Fastqinfo_ [#fastqinfopaper]_
+and SeqTK_ [#seqtkpaper]_.
 
 The whole pipeline_ [#fair_fastqc_multiqc_quote]_ was powered by Snakemake_ [#snakemakepaper]_,
 and relies on fair_genome_indexer_ [#fair_genome_indexer_quote]_ pipeline.
@@ -18,7 +19,8 @@ and relies on fair_genome_indexer_ [#fair_genome_indexer_quote]_ pipeline.
 .. [#fastqutilspaper] Nuno Fonseca, & Jonathan Manning. (2023). nunofonseca/fastq_utils: 0.25.2 (0.25.2). Zenodo. https://doi.org/10.5281/zenodo.7755574
 .. [#seqkitpaper] Shen, Wei, et al. "SeqKit: a cross-platform and ultrafast toolkit for FASTA/Q file manipulation." PloS one 11.10 (2016): e0163962.
 .. [#fastqinfopaper] Kiu R, fastq-info: compute estimated sequencing depth (coverage) of prokaryotic genomes
-.. [#fair_fastqc_multiqc_quote] Dayris, T. (2024). fair-fastqc-multiqc (Version 2.4.2) [Computer software]. https://github.com/tdayris/fair_fastqc_multiqc
+.. [#seqtkpaper] Li, Heng. "seqtk Toolkit for processing sequences in FASTA/Q formats." GitHub 767 (2012): 69.
+.. [#fair_fastqc_multiqc_quote] Dayris, T. (2024). fair-fastqc-multiqc (Version 2.5.0) [Computer software]. https://github.com/tdayris/fair_fastqc_multiqc
 .. [#snakemakepaper] Köster, Johannes, and Sven Rahmann. "Snakemake—a scalable bioinformatics workflow engine." Bioinformatics 28.19 (2012): 2520-2522.
 .. [#fair_genome_indexer_quote] Dayris, T. (2024). fair-genome-indexer (Version 3.9.3) [Computer software]. https://github.com/tdayris/fair_genome_indexer
 
@@ -29,6 +31,7 @@ and relies on fair_genome_indexer_ [#fair_genome_indexer_quote]_ pipeline.
 .. _`Snakemake workflow`: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_fastqc_multiqc
 .. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/fastqc.html
 .. _FastqScreen: https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/fastq_screen.html
+.. _SeqTK: https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/seqtk.html
 .. _Fastq_utils: https://github.com/nunofonseca/fastq_utils
 .. _Seqkit: https://bioinf.shenwei.me/seqkit/
 .. _Fastqinfo: https://github.com/raymondkiu/fastq-info
@@ -39,4 +42,4 @@ and relies on fair_genome_indexer_ [#fair_genome_indexer_quote]_ pipeline.
 :Authors:
     Thibault Dayris
 
-:Version: 2.4.3 of 2024-12-11
+:Version: 2.5.0 of 2024-12-13

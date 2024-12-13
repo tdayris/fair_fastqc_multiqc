@@ -1,6 +1,12 @@
+# 2.5.0
+
+## Features:
+
+* Seqtk added to check fastq files
+
 # 2.4.3
 
-## Features
+## Features:
 
 * Snakemake-wrappers update to 5.5.0
 * Tasks update

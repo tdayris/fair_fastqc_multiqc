@@ -13,6 +13,7 @@ include: "rules/fastqc.smk"
 include: "rules/multiqc.smk"
 include: "rules/prepare_input.smk"
 include: "rules/seqkit.smk"
+include: "rules/seqtk.smk"
 
 
 rule fair_fastqc_multiqc_target:
@@ -34,6 +35,15 @@ rule fair_fastqc_multiqc_target:
         fastqutils_info_se=expand(
             "results/QC/fastq_info/{sample.sample_id}.se.txt",
             sample=lookup(query="downstream_file != downstream_file", within=samples),
+        ),
+        seqtk_fqchk_se=expand(
+            "results/QC/Seqtk/{sample.sample_id}.tsv",
+            sample=lookup(query="downstream_file != downstream_file", within=samples),
+        ),
+        seqtk_fqchk_pe=expand(
+            "results/QC/Seqtk/{sample.sample_id}.{stream}.tsv",
+            sample=lookup(query="downstream_file == downstream_file", within=samples),
+            stream=stream_tuple,
         ),
     output:
         touch("tmp/targets/fair_fastqc_multiqc_target.flag"),

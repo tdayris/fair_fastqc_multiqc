@@ -24,11 +24,11 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
                           └──────────┬───────────┘                        
                                      │                                    
                                      │                                    
-    ┌─────────────────┬──────────────┼───────────────┬────────────────┐   
-    │                 │              │               │                │   
-┌───▼───┐      ┌──────▼─────┐    ┌───▼──┐     ┌──────▼────┐     ┌─────▼──┐
-│FastQC │      │FastQ-Screen│    │SeqKit│     │fastq_utils│     │fastinfo│
-└────┬──┘      └─────┬──────┘    └──────┘     └───────────┘     └────────┘
+    ┌─────────────────┬──────────────┼───────────────┬────────────────┬─────────────┐   
+    │                 │              │               │                │             │ 
+┌───▼───┐      ┌──────▼─────┐    ┌───▼──┐     ┌──────▼────┐     ┌─────▼───┐   ┌─────▼──┐ 
+│FastQC │      │FastQ-Screen│    │SeqKit│     │fastq_utils│     │fastqinfo│   │ Seqtk  │
+└────┬──┘      └─────┬──────┘    └──────┘     └───────────┘     └─────────┘   └────────┘
      │               │                                                    
      └───┬───────────┘                                                    
    ┌─────▼───┐                                                            
@@ -40,9 +40,10 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 
 | Step        | Wrapper                                                                                         |
 | ----------- | ----------------------------------------------------------------------------------------------- |
-| FastQC      | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/fastqc.html)     |
-| FastScreen  | [fastq-screen](https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/fastq_screen.html) |
-| MultiQC     | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/multiqc.html)   |
-| SeqKit      | [seqkit-wrapper](https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/seqkit.html)     |
+| FastQC      | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/fastqc.html)      |
+| FastScreen  | [fastq-screen](https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/fastq_screen.html)  |
+| MultiQC     | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/multiqc.html)    |
+| SeqKit      | [seqkit-wrapper](https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/seqkit.html)      |
+| SeqTK       | [seqtk-wrapper](https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/seqtk.html)        |
 | fastq_utils | [fastq_utils](https://github.com/nunofonseca/fastq_utils)                                       |
 | fastqinfo   | [fastqinfo](https://github.com/raymondkiu/fastq-info)                                           |

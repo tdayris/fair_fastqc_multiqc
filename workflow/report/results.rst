@@ -61,6 +61,8 @@ the following files are present:
     │   └── YYY.html
     ├── report_se
     │   └── YYY.html
+    ├── Seqtk
+    │   └── YYY.txt
     ├── SeqKit.Stats.pe.tsv
     └── SeqKit.Stats.se.tsv
 
@@ -91,4 +93,9 @@ the following files are present:
 | QC/report_pe  | `YYY.html`            | Sequence quality report for PE sample `YYY`          |
 +---------------+-----------------------+------------------------------------------------------+
 | QC/report_se  | `YYY.html`            | Sequence quality report for SE sample `YYY`          |
++---------------+-----------------------+------------------------------------------------------+
++---------------+-----------------------+------------------------------------------------------+
+| QC/Seqtk      | `YYY.pe.txt`          | Fastq format checks and QC for a pair ended sample   |
++               +-----------------------+------------------------------------------------------+
+|               | `YYY.tsv`             | Fastq format checks and QC for a single ended sample |
 +---------------+-----------------------+------------------------------------------------------+
