@@ -1,3 +1,9 @@
+# 2.5.1
+
+## Fix:
+
+* Allow fastq to be untouchable from current node (iRODS, cold-storage, ...)
+
 # 2.5.0
 
 ## Features:

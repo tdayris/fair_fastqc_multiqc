@@ -45,12 +45,14 @@ def get_latest_release(
     future: str = future_version,
     known: str | None = None,
 ) -> str:
-    if address.split("/")[-1] == op.basename(op.dirname(os.getcwd())):
-        print(f"Current pipeline detected, using {future=}...")
+    name = address.split("/")[-1]
+    current_name = op.basename(op.dirname(os.getcwd()))
+    if name == current_name:
+        print(f"Current pipeline detected, using {future=} for {name=}...")
         return get_future_version(changelog=locations["changelog"])
 
     if known is not None:
-        print(f"Known version provided {known=}")
+        print(f"Known version provided {known=} for {name=}")
         return known
 
     print(f"Seaching for {address=} on github...")
