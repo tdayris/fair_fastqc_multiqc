@@ -16,7 +16,7 @@ rule fair_fastqc_multiqc_fastqc_pair_ended:
         zip="results/QC/report_pe/{sample}.{stream}_fastqc.zip",
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * (1024 * 2),
+        mem_mb=lambda wildcards, attempt: attempt * 1_000 + 7_000,
         runtime=lambda wildcards, input, attempt: attempt
         * 10
         * max(1, int(input.size_mb / 1024)),

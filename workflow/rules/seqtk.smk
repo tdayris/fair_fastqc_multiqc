@@ -5,8 +5,8 @@ rule fair_fastqc_multiqc_seqtk_fqchk_pair_ended:
         "results/QC/Seqtk/{sample}.{stream}.tsv",
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1_000,
-        runtime=lambda wildcards, attempt: attempt * 15,
+        mem_mb=lambda wildcards, attempt: 500 + attempt * 100,
+        runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:
         "logs/fair_fastqc_multiqc_seqtk_fqchk_pair_ended/{sample}.{stream}.log",

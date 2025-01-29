@@ -3,7 +3,7 @@ rule fair_fastqc_multiqc_fastq_info_download:
         temp("tmp/fair_fastqc_multiqc_fastq_info_download/fastqinfo.sh"),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1_000,
+        mem_mb=lambda wildcards, attempt: attempt * 100 + 400,
         runtime=lambda wildcards, attempt: attempt * 15,
         tmpdir=tmp,
     log:
@@ -34,7 +34,7 @@ rule fair_fastqc_multiqc_fastq_info_process_pair_ended:
         "minimal"
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1_000,
+        mem_mb=lambda wildcards, attempt: 2_000 + attempt * 1_000,
         runtime=lambda wildcards, attempt: attempt * 15,
         tmpdir=tmp,
     log:

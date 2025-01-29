@@ -3,7 +3,7 @@ rule fair_fastqc_multiqc_bigr_logo:
         "tmp/fair_fastqc_multiqc_bigr_logo.png",
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 512,
+        mem_mb=lambda wildcards, attempt: attempt * 100 + 200,
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     localrule: True
@@ -29,7 +29,7 @@ rule fair_fastqc_multiqc_multiqc_config:
         temp("tmp/fair_fastqc_multiqc_multiqc_config/multiqc_config.yaml"),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 512,
+        mem_mb=lambda wildcards, attempt: 500 * attempt * 100,
         runtime=lambda wildcards, attempt: attempt * 5,
         tmpdir=tmp,
     localrule: True
@@ -92,7 +92,7 @@ rule fair_fastqc_multiqc_multiqc_report:
         "results/QC/MultiQC_FastQC_data.zip",
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * (1024 * 2),
+        mem_mb=lambda wildcards, attempt: 800 + attempt * 200,
         runtime=lambda wildcards, input, attempt: attempt
         * 30
         * max(1, int(input.size_mb / 1024)),

@@ -5,10 +5,10 @@ rule fair_fastqc_multiqc_link_or_concat_single_ended_input:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1024,
+        mem_mb=lambda wildcards, attempt: 400 + attempt * 100,
         runtime=lambda wildcards, input, attempt: attempt
         * max(1, int(input.size_mb / 1024))
-        * 15,
+        * 10,
         tmpdir=tmp,
     log:
         "logs/fair_fastqc_multiqc_link_or_concat_single_ended_input/{sample}.log",
