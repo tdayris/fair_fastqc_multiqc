@@ -19,7 +19,7 @@ rule fair_fastqc_multiqc_fastq_utils_fastq_info_pair_ended:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1_000,
+        mem_mb=lambda wildcards, attempt: attempt * 1_000 + 10_000,
         runtime=lambda wildcards, attempt: attempt * 15,
         tmpdir=tmp,
     log:
