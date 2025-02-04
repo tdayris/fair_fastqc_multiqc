@@ -1,3 +1,11 @@
+# 2.5.2
+
+## Features:
+
+* Only raise warning on untouchable files
+* Snakemake wrappers update to 5.6.0
+* fair_genome_indexer update to 3.9.5
+
 # 2.5.1
 
 ## Fix:
