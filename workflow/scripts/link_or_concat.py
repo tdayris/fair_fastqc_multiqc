@@ -245,7 +245,7 @@ def copy_or_concat(
     )
     if not os.path.exists(src):
         if not (src.startswith(cold_storage) or src.startswith(irods_prefix)):
-            raise FileNotFoundError(f"Could not find local source at: {src=}")
+            logging.warning(f"Could not find local source at: {src=}")
         # Case src is on irods of cold-storage and only availabl on login-node.
     # Case src exists.
 
