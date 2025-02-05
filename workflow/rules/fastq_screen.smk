@@ -5,7 +5,7 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
         txt=temp(
             "tmp/fair_fastqc_multiqc_fastq_screen_single_ended/{sample}.fastq_screen.txt"
         ),
-        tmp="results/QC/fastq_screen/{sample}.fastq_screen.png",
+        png="results/QC/fastq_screen/{sample}.fastq_screen.png",
     threads: 20
     resources:
         mem_mb=lambda wildcards, attempt: attempt * 500,
@@ -40,7 +40,7 @@ use rule fair_fastqc_multiqc_fastq_screen_single_ended as fair_fastqc_multiqc_fa
         txt=temp(
             "tmp/fair_fastqc_multiqc_fastq_screen_pair_ended/{sample}.{stream}.fastq_screen.txt"
         ),
-        tmp="results/QC/fastq_screen/{sample}.{stream}.fastq_screen.png",
+        png="results/QC/fastq_screen/{sample}.{stream}.fastq_screen.png",
     log:
         "logs/fair_fastqc_multiqc_fastq_screen_pair_ended/{sample}.{stream}.log",
     benchmark:
