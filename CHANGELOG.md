@@ -1,3 +1,9 @@
+# 2.5.3
+
+## Fix:
+
+* FastQScreen output key error fixed
+
 # 2.5.2
 
 ## Features:
