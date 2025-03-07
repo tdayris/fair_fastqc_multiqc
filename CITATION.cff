@@ -7,4 +7,4 @@ date-released: '2025-03-07'
 message: If you use this software, please cite it as below.
 title: fair-fastqc-multiqc
 url: https://github.com/tdayris/fair_fastqc_multiqc
-version: 2.5.4
+version: 2.5.5

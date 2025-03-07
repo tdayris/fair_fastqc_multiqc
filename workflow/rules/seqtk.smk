@@ -19,7 +19,7 @@ rule fair_fastqc_multiqc_seqtk_fqchk_pair_ended:
             default="-q0",
         ),
     wrapper:
-        "v5.6.0/bio/seqtk"
+        "v5.8.3/bio/seqtk"
 
 
 use rule fair_fastqc_multiqc_seqtk_fqchk_pair_ended as fair_fastqc_multiqc_seqtk_fqchk_single_ended with:

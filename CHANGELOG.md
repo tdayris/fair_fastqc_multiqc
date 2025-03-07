@@ -1,3 +1,11 @@
+# 2.5.5
+
+## Features:
+
+* Snakemake-wrappers update to 5.8.3
+* fair_genome_indexer update to 3.9.7
+* Remove fastq_screen config file
+
 # 2.5.4
 
 ## Features:
