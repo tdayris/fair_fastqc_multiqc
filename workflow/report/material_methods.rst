@@ -42,4 +42,4 @@ and relies on fair_genome_indexer_ [#fair_genome_indexer_quote]_ pipeline.
 :Authors:
     Thibault Dayris
 
-:Version: 2.5.3 of 2025-02-05
+:Version: 2.5.4 of 2025-03-07

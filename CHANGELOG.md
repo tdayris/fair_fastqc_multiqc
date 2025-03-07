@@ -1,3 +1,9 @@
+# 2.5.4
+
+## Features:
+
+* Default configuration update
+
 # 2.5.3
 
 ## Fix:
