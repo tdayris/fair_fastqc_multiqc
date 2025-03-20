@@ -5,7 +5,7 @@ on:
     branches:
       - main
   pull_request:
-    branches_ignore: []
+    branches-ignore: []
 
 jobs:
   formatting:
@@ -22,7 +22,19 @@ jobs:
         VALIDATE_ALL_CODEBASE: false
         DEFAULT_BRANCH: main
         VALIDATE_SNAKEMAKE_SNAKEFMT: true
-  linting:
+  linting-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Linting
+      uses: snakemake/snakemake-github-action@v1.25.1
+      with:
+        directory: .test
+        snakefile: workflow/Snakefile
+        args: "--lint"
+
+  
+  linting-workflow:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -36,7 +48,8 @@ jobs:
   run-workflow:
     runs-on: ubuntu-latest
     needs:
-      - linting
+      - linting-workflow
+      - linting-tests
       - formatting
     steps:
     - name: Checkout repository with submodules
