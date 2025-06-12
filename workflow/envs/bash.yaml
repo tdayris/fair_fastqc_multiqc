@@ -4,4 +4,4 @@ channels:
 dependencies:
   - wget =1.21.4
   - gawk =5.3.1
-  - bash =5.2.21
+  - bash =5.2.37

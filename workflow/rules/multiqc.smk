@@ -111,4 +111,4 @@ rule fair_fastqc_multiqc_multiqc_report:
     benchmark:
         "benchmark/fair_fastqc_multiqc_multiqc_report.tsv"
     wrapper:
-        "v5.8.3/bio/multiqc"
+        "v7.0.0/bio/multiqc"

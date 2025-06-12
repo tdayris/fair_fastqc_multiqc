@@ -19,3 +19,9 @@
 .test/genomes.csv
 .test/report
 .test/report.zip
+.test/benchmark.tsv
+.test/env.yaml
+.test/linter_info.txt
+.test/update_docs.txt
+.test/wrappers_update.txt
+.test/docs_update.txt

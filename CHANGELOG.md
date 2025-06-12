@@ -1,3 +1,14 @@
+# 2.5.6
+
+## Features:
+
+* Snakemake-wrappers update to 7.0.0
+* fair_genome_indexer update to 3.9.8
+
+## Fix:
+
+* FastQC memory has a hard limit set in its memory. We ensure snakemake does not overstep this limit.
+
 # 2.5.5
 
 ## Features:

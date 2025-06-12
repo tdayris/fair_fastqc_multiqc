@@ -16,7 +16,7 @@ rule fair_fastqc_multiqc_fastqc_pair_ended:
         zip="results/QC/report_pe/{sample}.{stream}_fastqc.zip",
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1_000 + 7_000,
+        mem_mb=lambda wildcards, attempt: min(attempt * 1_000 + 7_000, 9_999),
         runtime=lambda wildcards, input, attempt: attempt
         * 10
         * max(1, int(input.size_mb / 1024)),
@@ -28,7 +28,7 @@ rule fair_fastqc_multiqc_fastqc_pair_ended:
     params:
         extra=lookup_config(dpath="params/fair_fastqc_multiqc_fastqc", default=""),
     wrapper:
-        "v5.8.3/bio/fastqc"
+        "v7.0.0/bio/fastqc"
 
 
 use rule fair_fastqc_multiqc_fastqc_pair_ended as fair_fastqc_multiqc_fastqc_single_ended with:

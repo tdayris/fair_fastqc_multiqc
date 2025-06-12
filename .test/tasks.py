@@ -280,8 +280,8 @@ def update_conda(
         for file in files:
             if file.endswith(".yaml"):
                 c.run(
-                    "snakedeploy update-conda-envs --conda-frontend mamba "
-                    f"--pin-envs '{root}/{file}' > conda_update.txt 2>&1",
+                    "snakedeploy update-conda-envs --conda-frontend conda "
+                    f"--pin-envs '{root}/{file}' >> conda_update.txt 2>&1",
                     echo=True,
                 )
 
@@ -325,7 +325,7 @@ def linter(
     snakefile: str = locations["snakefile"],
 ):
     c.run(
-        f"snakemake --lint -s '{snakefile}' > linter_info.txt 2>&1",
+        f"snakemake --lint -s '{snakefile}' >> linter_info.txt 2>&1",
         echo=True,
     )
 
@@ -341,6 +341,7 @@ def pipeline(
         "--rerun-incomplete --printshellcmds "
         "--shadow-prefix 'tmp' --rerun-triggers 'mtime' "
         "--software-deployment-method conda "
+        "--show-failed-logs --logger 'snkmt' "
         "--benchmark-extended > pipeline.txt 2>&1",
         echo=True,
     )

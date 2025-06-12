@@ -20,7 +20,7 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
     params:
         subset=lookup_config(
             dpath="params/fair_fastqc_multiqc_fastq_screen_subset",
-            default=10000,
+            default=10_000,
         ),
         aligner=lookup_config(
             dpath="params/fair_fastqc_multiqc_fastq_screen_aligner",
@@ -30,7 +30,7 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
             dpath="params/fair_fastqc_multiqc_fastq_screen_config",
         ),
     wrapper:
-        "v5.8.3/bio/fastq_screen"
+        "v7.0.0/bio/fastq_screen"
 
 
 use rule fair_fastqc_multiqc_fastq_screen_single_ended as fair_fastqc_multiqc_fastq_screen_pair_ended with:

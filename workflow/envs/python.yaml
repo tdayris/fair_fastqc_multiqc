@@ -2,10 +2,10 @@ channels:
   - conda-forge
   - nodefaults
 dependencies:
-  - pandas =2.2.3
-  - pyarrow =19.0.1
+  - pandas =2.3.0
+  - pyarrow =20.0.0
   - pyyaml =6.0.2
   - rsync =3.4.1
   - python-irodsclient =2.1.0
-  - bash =5.2.21
-  - gzip =1.13
+  - bash =5.2.37
+  - gzip =1.14

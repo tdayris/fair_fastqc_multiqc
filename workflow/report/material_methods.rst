@@ -25,13 +25,13 @@ and relies on fair_genome_indexer_ [#fair_genome_indexer_quote]_ pipeline.
 .. [#fair_genome_indexer_quote] Dayris, T. (2024). fair-genome-indexer (Version 3.9.3) [Computer software]. https://github.com/tdayris/fair_genome_indexer
 
 
-.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/multiqc.html
+.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v7.0.0/wrappers/multiqc.html
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _Github: https://github.com/tdayris/fair_fastqc_multiqc
 .. _`Snakemake workflow`: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_fastqc_multiqc
-.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/fastqc.html
-.. _FastqScreen: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/fastq_screen.html
-.. _SeqTK: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/seqtk.html
+.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v7.0.0/wrappers/fastqc.html
+.. _FastqScreen: https://snakemake-wrappers.readthedocs.io/en/v7.0.0/wrappers/fastq_screen.html
+.. _SeqTK: https://snakemake-wrappers.readthedocs.io/en/v7.0.0/wrappers/seqtk.html
 .. _Fastq_utils: https://github.com/nunofonseca/fastq_utils
 .. _Seqkit: https://bioinf.shenwei.me/seqkit/
 .. _Fastqinfo: https://github.com/raymondkiu/fastq-info
@@ -42,4 +42,4 @@ and relies on fair_genome_indexer_ [#fair_genome_indexer_quote]_ pipeline.
 :Authors:
     Thibault Dayris
 
-:Version: 2.5.5 of 2025-03-07
+:Version: 2.5.6 of 2025-06-12
