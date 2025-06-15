@@ -1,3 +1,21 @@
+# 3.0.0
+
+## Breaking change:
+
+SeqKit is now used once for each file. This is due to very large cohorts taking 
+too much space in hot-sotage of computing cluster. A concatenation is being done 
+at the end to have a complete table. Pair-ended and Single-ended libraries are
+mixed, leading to a change in output file signature, and a breaking change as
+a consequence.
+
+## Features:
+
+* SeqKit per sample + Concatenation
+* Per-sample statistics are available with genome information, read number, etc.
+* FastqScreen is being done against all provided genomes if no FastqScreen
+  configuration is provided in configuration file.
+* fair_genome_indexer update to 3.10.0
+
 # 2.5.6
 
 ## Features:
@@ -7,7 +25,8 @@
 
 ## Fix:
 
-* FastQC memory has a hard limit set in its memory. We ensure snakemake does not overstep this limit.
+* FastQC memory has a hard limit set in its memory. We ensure snakemake does not 
+  overstep this limit.
 
 # 2.5.5
 

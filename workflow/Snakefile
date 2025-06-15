@@ -12,37 +12,42 @@ include: "rules/fastq_utils.smk"
 include: "rules/fastqc.smk"
 include: "rules/multiqc.smk"
 include: "rules/prepare_input.smk"
+include: "rules/samples_stats.smk"
 include: "rules/seqkit.smk"
 include: "rules/seqtk.smk"
 
 
 rule fair_fastqc_multiqc_target:
     input:
+        samples_stats=expand(
+            "tmp/fair_fastqc_multiqc_samples_stats/{sample.sample_id}.{sample.species}.{sample.build}.{sample.release}.dna.statistics.yaml",
+            sample=samples.itertuples(),
+        ),
         multiqc=[
             "results/QC/MultiQC_FastQC.html",
             "results/QC/MultiQC_FastQC_data.zip",
         ],
         fastqinfo_pe=expand(
             "results/QC/fastqinfo/{sample.sample_id}.{sample.species}.{sample.build}.{sample.release}.{datatype}.pe.tsv",
-            sample=lookup(query="downstream_file == downstream_file", within=samples),
+            sample=get_pair_ended_samples(),
             datatype=("dna", "transcripts"),
         ),
-        seqkit_stats=expand("results/QC/SeqKit.Stats.{pairs}.tsv", pairs=("se", "pe")),
+        seqkit_stats="results/QC/SeqKit.Stats.csv",
         fastqutils_info_pe=expand(
             "results/QC/fastq_info/{sample.sample_id}.pe.txt",
-            sample=lookup(query="downstream_file == downstream_file", within=samples),
+            sample=get_pair_ended_samples(),
         ),
         fastqutils_info_se=expand(
             "results/QC/fastq_info/{sample.sample_id}.se.txt",
-            sample=lookup(query="downstream_file != downstream_file", within=samples),
+            sample=get_single_ended_samples(),
         ),
         seqtk_fqchk_se=expand(
             "results/QC/Seqtk/{sample.sample_id}.tsv",
-            sample=lookup(query="downstream_file != downstream_file", within=samples),
+            sample=get_single_ended_samples(),
         ),
         seqtk_fqchk_pe=expand(
             "results/QC/Seqtk/{sample.sample_id}.{stream}.tsv",
-            sample=lookup(query="downstream_file == downstream_file", within=samples),
+            sample=get_pair_ended_samples(),
             stream=stream_tuple,
         ),
     output:

@@ -5,7 +5,7 @@ module fair_genome_indexer:
             github(
                 "tdayris/fair_genome_indexer",
                 path="workflow/Snakefile",
-                tag="3.9.8",
+                tag="3.10.0",
             ),
         )
     config:
