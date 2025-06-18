@@ -32,8 +32,10 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
         "../envs/fastq_screen.yaml"
     script:
         "../scripts/fair_fastqc_multiqc_fastq_screen.py"
-    #wrapper:
-    #    "v7.0.0/bio/fastq_screen"
+
+
+# wrapper:
+#    "v7.0.0/bio/fastq_screen"
 
 
 use rule fair_fastqc_multiqc_fastq_screen_single_ended as fair_fastqc_multiqc_fastq_screen_pair_ended with:
