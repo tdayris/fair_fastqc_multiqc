@@ -34,7 +34,6 @@ def read_seqkit_qc(path: str) -> dict[str, typing.Any]:
 
     # Normalize sample ids
     df.index = [i.split("/")[-1].replace(".fastq.gz", "") for i in df.index]
-    print(df)
 
     if len(df) == 1:
         # Single ended mode

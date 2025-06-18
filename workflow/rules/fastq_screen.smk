@@ -1,6 +1,7 @@
 rule fair_fastqc_multiqc_fastq_screen_single_ended:
     input:
         sample="tmp/fair_fastqc_multiqc_link_or_concat_single_ended_input/{sample}.fastq.gz",
+        indexes=select_fastq_screen(files_only=True),
     output:
         txt=temp(
             "tmp/fair_fastqc_multiqc_fastq_screen_single_ended/{sample}.fastq_screen.txt"
@@ -26,9 +27,7 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
             dpath="params/fair_fastqc_multiqc_fastq_screen_aligner",
             default="bowtie2",
         ),
-        fastq_screen_config=lookup_config(
-            dpath="params/fair_fastqc_multiqc_fastq_screen_config",
-        ),
+        fastq_screen_config=select_fastq_screen(),
     wrapper:
         "v7.0.0/bio/fastq_screen"
 
@@ -36,6 +35,7 @@ rule fair_fastqc_multiqc_fastq_screen_single_ended:
 use rule fair_fastqc_multiqc_fastq_screen_single_ended as fair_fastqc_multiqc_fastq_screen_pair_ended with:
     input:
         sample="tmp/fair_fastqc_multiqc_link_or_concat_pair_ended_input/{sample}.{stream}.fastq.gz",
+        indexes=select_fastq_screen(files_only=True),
     output:
         txt=temp(
             "tmp/fair_fastqc_multiqc_fastq_screen_pair_ended/{sample}.{stream}.fastq_screen.txt"

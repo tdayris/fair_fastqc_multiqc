@@ -15,6 +15,7 @@ a consequence.
 * FastqScreen is being done against all provided genomes if no FastqScreen
   configuration is provided in configuration file.
 * fair_genome_indexer update to 3.10.0
+* Librarian used to assess sequencing protocol and library
 
 # 2.5.6
 

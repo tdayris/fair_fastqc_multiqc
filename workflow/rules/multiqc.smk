@@ -59,23 +59,16 @@ rule fair_fastqc_multiqc_multiqc_report:
             pair_ended_data=get_pair_ended_samples(),
             stream=stream_tuple,
         ),
-        fastq_screen_single_ended=branch(
-            condition=use_fqscreen() is True,
-            then=collect(
-                "tmp/fair_fastqc_multiqc/fastq_screen_single_ended/{single_ended_data.sample_id}.fastq_screen.txt",
-                single_ended_data=get_single_ended_samples(),
-            ),
-            otherwise=[],
+        fastq_screen_single_ended=collect(
+            "tmp/fair_fastqc_multiqc_fastq_screen_single_ended/{single_ended_data.sample_id}.fastq_screen.txt",
+            single_ended_data=get_single_ended_samples(),
         ),
-        fastq_screen_pair_ended=branch(
-            condition=use_fqscreen() is True,
-            then=collect(
-                "tmp/fair_fastqc_multiqc_fastq_screen_pair_ended/{pair_ended_data.sample_id}.{stream}.fastq_screen.txt",
-                pair_ended_data=get_pair_ended_samples(),
-                stream=stream_tuple,
-            ),
-            otherwise=[],
+        fastq_screen_pair_ended=collect(
+            "tmp/fair_fastqc_multiqc_fastq_screen_pair_ended/{pair_ended_data.sample_id}.{stream}.fastq_screen.txt",
+            pair_ended_data=get_pair_ended_samples(),
+            stream=stream_tuple,
         ),
+        librarian="results/QC/Librarian/librarian_heatmap.txt",
         config="tmp/fair_fastqc_multiqc_multiqc_config/multiqc_config.yaml",
         logo="tmp/fair_fastqc_multiqc_bigr_logo.png",
     output:
@@ -100,7 +93,7 @@ rule fair_fastqc_multiqc_multiqc_report:
     params:
         extra=lookup_config(
             dpath="params/fair_fastqc_multiqc_multiqc/extra",
-            default="--verbose --no-megaqc-upload --force --no-version-check",
+            default="--verbose --no-megaqc-upload --force --no-version-check --no-ai",
         ),
         use_input_files_only=lookup_config(
             dpath="params/fair_fastqc_multiqc_multiqc/use_input_file_only",

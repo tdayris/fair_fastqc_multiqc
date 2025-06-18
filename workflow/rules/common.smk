@@ -1,6 +1,7 @@
 import csv
 import functools
 import os
+import os.path
 import pandas
 import snakemake
 import snakemake.utils
@@ -346,23 +347,67 @@ def get_pair_ended_samples(samples: pandas.DataFrame = samples) -> NamedTuple:
     return lookup(query="downstream_file == downstream_file", within=samples)
 
 
-def use_fqscreen(config: dict[str, Any] = config) -> bool:
+def is_paired(
+    wildcards: snakemake.io.Wildcards,
+    samples: pandas.DataFrame = samples,
+) -> bool:
     """
-    Return true if a Fastq-Screen configuration file is provided
-    by user, and if the file exists.
+    Return whether a sample if has a pair-ended library or not
+
+    Parameters:
+    wildcards (snakemake.io.Wildcards): Snakemake wildcards to select the sample
+    samples   (pandas.DataFrame)      : Samples table
+
+    Return: bool
+    """
+    pair_ended_samples = get_pair_ended_samples(samples)
+    if isinstance(pair_ended_samples, list):
+        return str(wildcards.sample) in [str(i.sample_id) for i in pair_ended_samples]
+
+    return str(wildcards.sample) == str(pair_ended_samples.sample_id)
+
+
+def select_fastq_screen(
+    files_only: bool = False,
+    config: dict[str, Any] = config,
+    genomes: pandas.DataFrame = genomes,
+) -> str | dict[str, Any]:
+    """
+    Return input file expected to create a fastq-sceen configuration database
     """
     fqscreen_config = lookup_config(
         dpath="params/fair_fastqc_multiqc_fastq_screen_config",
+        default=None,
+    )
+    if fqscreen_config is not None:
+        if files_only:
+            return []
+        return fqscreen_config
+
+    bt2_prefix_template: str = str(
+        "reference/bowtie2_index/{genome.species}.{genome.build}.{genome.release}.dna/{genome.species}.{genome.build}.{genome.release}.dna",
     )
 
-    fqscreen: bool = False
-    try:
-        fqscreen = os.path.exists(fqscreen_config)
-        if not fqscreen:
-            raise FileNotFoundError(f"Could not find {fqscreen_config=}")
-    except TypeError:
-        # Handles all kind of non-str values provided in parameters
-        # in case user provides `False`, `None`, etc.
-        fqscreen = False
+    fqscreen_config: dict[str, Any] = {
+        "database": {
+            str(genome.species): {"bowtie2": bt2_prefix_template.format(genome=genome)}
+            for genome in genomes.drop_duplicates(subset=["species"]).itertuples()
+        },
+        "aligner_paths": {"bowtie2": "bowtie2"},
+    }
 
-    return fqscreen
+    if files_only:
+        return [
+            f'{prefix["bowtie2"]}{ext}'
+            for ext in (
+                ".1.bt2",
+                ".2.bt2",
+                ".3.bt2",
+                ".4.bt2",
+                ".rev.1.bt2",
+                ".rev.2.bt2",
+            )
+            for prefix in fqscreen_config["database"].values()
+        ]
+
+    return fqscreen_config

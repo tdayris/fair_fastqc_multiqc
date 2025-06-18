@@ -33,22 +33,18 @@ mqc_config: dict[str, Any] = {
         {"Applivation type": "Any"},
         {"Project Type": "Quality Control"},
     ],
-    "software_versions": {
-        "Pipeline": {
-            "snakemake": "8.5.3",
-            "snakemake-wrappers-utils": "0.6.2",
-            "fair_fastqc_multiqc": "2.4.2",
-        },
-    },
-    "disable_version_detection": True,
     "run_modules": [
         "fastqc",
         "fastq_screen",
     ],
     "report_section_order": {
+        "librarian": {"order": 1001},
         "fastqc": {"order": 1000},
-        "fastq_screen": {"order": "900"},
-        "software_versions": {"order": "800"},
+        "fastq_screen": {"order": 900},
+        "software_versions": {"order": 800},
+    },
+    "librarian": {
+        "show_general_stats": True,
     },
 }
 
