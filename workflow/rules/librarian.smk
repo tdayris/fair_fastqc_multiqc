@@ -96,6 +96,28 @@ rule fair_fastqc_multiqc_librarian_local_mode:
         "../scripts/fair_fastqc_multiqc_librarian_local_mode.py"
 
 
+rule fair_fastqc_multiqc_rename_librarian:
+    input:
+        "tmp/fair_fastqc_multiqc_librarian_local_mode/{sample}.heatmap.txt",
+    output:
+        temp("tmp/fair_fastqc_multiqc_rename_librarian/{sample}.heatmap.txt"),
+    threads: 1
+    resources:
+        mem_mb=lambda wildcards, attempt: attempt * 1_000,
+        runtime=lambda wildcards, attempt: attempt * 15,
+        tmpdir=tmp,
+    log:
+        "logs/fair_fastqc_multiqc_rename_librarian/{sample}.log",
+    benchmark:
+        "benchmark/fair_fastqc_multiqc_rename_librarian/{sample}.tsv",
+    params:
+        extra="'s/sample_name_01/{sample}/g'",
+    conda:
+        "../envs/bash.yaml"
+    shell:
+        "sed {params.extra} {input} > {output} 2> {log}"
+
+
 rule fair_fastqc_multiqc_concat_librarian:
     input:
         expand(

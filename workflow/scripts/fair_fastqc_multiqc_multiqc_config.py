@@ -36,6 +36,7 @@ mqc_config: dict[str, Any] = {
     "run_modules": [
         "fastqc",
         "fastq_screen",
+        "librarian",
     ],
     "report_section_order": {
         "librarian": {"order": 1001},
