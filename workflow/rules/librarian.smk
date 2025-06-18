@@ -109,7 +109,7 @@ rule fair_fastqc_multiqc_rename_librarian:
     log:
         "logs/fair_fastqc_multiqc_rename_librarian/{sample}.log",
     benchmark:
-        "benchmark/fair_fastqc_multiqc_rename_librarian/{sample}.tsv",
+        "benchmark/fair_fastqc_multiqc_rename_librarian/{sample}.tsv"
     params:
         extra="'s/sample_name_01/{sample}/g'",
     conda:
@@ -121,7 +121,7 @@ rule fair_fastqc_multiqc_rename_librarian:
 rule fair_fastqc_multiqc_concat_librarian:
     input:
         expand(
-            "tmp/fair_fastqc_multiqc_librarian_local_mode/{sample}.heatmap.txt",
+            "tmp/fair_fastqc_multiqc_rename_librarian/{sample}.heatmap.txt",
             sample=samples.sample_id,
         ),
     output:
